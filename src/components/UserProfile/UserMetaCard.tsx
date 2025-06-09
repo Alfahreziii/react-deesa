@@ -1,16 +1,88 @@
 import { useModal } from "../../hooks/useModal";
 import { Modal } from "../ui/modal";
+import { useEffect, useState } from "react";
+import { getProfile } from "../../api/authService";
+import { updateProfile } from '../../api/userService';
+
+import Alert from "../ui/alert/Alert";
+import Select from "../form/Select";
 import Button from "../ui/button/Button";
 import Input from "../form/input/InputField";
 import Label from "../form/Label";
 
 export default function UserMetaCard() {
   const { isOpen, openModal, closeModal } = useModal();
-  const handleSave = () => {
-    // Handle save logic here
-    console.log("Saving changes...");
-    closeModal();
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
+  
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const res = await getProfile();
+        const data = res.data;
+
+        // Jika tanggal_lahir ada, format dulu ke YYYY-MM-DD
+        const formattedTanggalLahir = data.tanggal_lahir
+          ? data.tanggal_lahir.split('T')[0]
+          : '';
+
+        setForm({
+          ...data,
+          tanggal_lahir: formattedTanggalLahir,
+        });
+      } catch (err: any) {
+        setError("Failed to fetch profile");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProfile();
+  }, []);
+
+
+  const [form, setForm] = useState({
+    name: '',
+    nomor_kk: '',
+    nomor_nik: '',
+    tempat_lahir: '',
+    tanggal_lahir: '',
+    jenis_kelamin: '',
+    pekerjaan: '',
+    alamat_rt005: '',
+    alamat_ktp: '',
+    status: '',
+
+    role: '',
+    email: '',
+    // tambahkan field lain sesuai kebutuhan
+  });
+  const [message, setMessage] = useState('');
+
+  // Handle input change
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
   };
+
+  // Handle submit
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setMessage('');
+
+    try {
+      const res = await updateProfile(form);
+      setMessage(res.message || 'Profile updated!');
+    } catch (err: any) {
+      setMessage(err.response?.data?.message || 'Failed to update profile');
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+    if (loading) return <p>Loading...</p>;
   return (
     <>
       <div className="p-5 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6">
@@ -21,15 +93,19 @@ export default function UserMetaCard() {
             </div>
             <div className="order-3 xl:order-2">
               <h4 className="mb-2 text-lg font-semibold text-center text-gray-800 dark:text-white/90 xl:text-left">
-                Musharof Chowdhury
+                {form.name}
               </h4>
               <div className="flex flex-col items-center gap-1 text-center xl:flex-row xl:gap-3 xl:text-left">
                 <p className="text-sm text-gray-500 dark:text-gray-400">
-                  Team Manager
+                  {form.role}
                 </p>
                 <div className="hidden h-3.5 w-px bg-gray-300 dark:bg-gray-700 xl:block"></div>
                 <p className="text-sm text-gray-500 dark:text-gray-400">
-                  Arizona, United States
+                  {form.email}
+                </p>
+                <div className="hidden h-3.5 w-px bg-gray-300 dark:bg-gray-700 xl:block"></div>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  {form.status}
                 </p>
               </div>
             </div>
@@ -151,42 +227,23 @@ export default function UserMetaCard() {
             <p className="mb-6 text-sm text-gray-500 dark:text-gray-400 lg:mb-7">
               Update your details to keep your profile up-to-date.
             </p>
+              {error && (
+              <Alert
+                variant="error"
+                title="Error Message"
+                message={error}
+               />
+              )}
+              {message && (
+              <Alert
+                variant="success"
+                title="Succes"
+                message={message}
+               />
+              )}
           </div>
-          <form className="flex flex-col">
+          <form onSubmit={handleSubmit} className="flex flex-col">
             <div className="custom-scrollbar h-[450px] overflow-y-auto px-2 pb-3">
-              <div>
-                <h5 className="mb-5 text-lg font-medium text-gray-800 dark:text-white/90 lg:mb-6">
-                  Social Links
-                </h5>
-
-                <div className="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
-                  <div>
-                    <Label>Facebook</Label>
-                    <Input
-                      type="text"
-                      value="https://www.facebook.com/PimjoHQ"
-                    />
-                  </div>
-
-                  <div>
-                    <Label>X.com</Label>
-                    <Input type="text" value="https://x.com/PimjoHQ" />
-                  </div>
-
-                  <div>
-                    <Label>Linkedin</Label>
-                    <Input
-                      type="text"
-                      value="https://www.linkedin.com/company/pimjo"
-                    />
-                  </div>
-
-                  <div>
-                    <Label>Instagram</Label>
-                    <Input type="text" value="https://instagram.com/PimjoHQ" />
-                  </div>
-                </div>
-              </div>
               <div className="mt-7">
                 <h5 className="mb-5 text-lg font-medium text-gray-800 dark:text-white/90 lg:mb-6">
                   Personal Information
@@ -194,28 +251,64 @@ export default function UserMetaCard() {
 
                 <div className="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
                   <div className="col-span-2 lg:col-span-1">
-                    <Label>First Name</Label>
-                    <Input type="text" value="Musharof" />
+                    <Label>Full Name</Label>
+                    <Input type="text" name="name" value={form.name} onChange={handleChange} />
+                  </div>
+                  <div className="col-span-2 lg:col-span-1">
+                    <Label>Email</Label>
+                    <Input type="text" name="email" value={form.email} onChange={handleChange} />
                   </div>
 
                   <div className="col-span-2 lg:col-span-1">
-                    <Label>Last Name</Label>
-                    <Input type="text" value="Chowdhury" />
+                    <Label>Nomor KK</Label>
+                    <Input type="text" name="nomor_kk" value={form.nomor_kk} onChange={handleChange}  />
+                  </div>
+                  <div className="col-span-2 lg:col-span-1">
+                    <Label>Nomor NIK</Label>
+                    <Input type="text" name="nomor_nik" value={form.nomor_nik} onChange={handleChange}  />
+                  </div>
+                  <div className="col-span-2 lg:col-span-1">
+                    <Label>Tempat Lahir</Label>
+                    <Input type="text" name="tempat_lahir" value={form.tempat_lahir} onChange={handleChange}  />
                   </div>
 
                   <div className="col-span-2 lg:col-span-1">
-                    <Label>Email Address</Label>
-                    <Input type="text" value="randomuser@pimjo.com" />
+                    <Label>Tanggal Lahir</Label>
+                   
+
+                    <Input type="date" name="tanggal_lahir" value={form.tanggal_lahir} onChange={handleChange} />
                   </div>
 
                   <div className="col-span-2 lg:col-span-1">
-                    <Label>Phone</Label>
-                    <Input type="text" value="+09 363 398 46" />
+                    <Label>Jenis Kelamin</Label>
+                    <Select
+                      defaultValue={form.jenis_kelamin}
+                      onChange={(value) =>
+                        setForm({ ...form, jenis_kelamin: value })
+                      }
+                      options={[
+                        { value: "L", label: "Laki-laki" },
+                        { value: "P", label: "Perempuan" },
+                      ]}
+                      placeholder="-- Pilih Jenis Kelamin --"
+                    />
+                  </div>
+                  <div className="col-span-2 lg:col-span-1">
+                    <Label>Pekerjaan</Label>
+                    <Input type="text" name="pekerjaan" value={form.pekerjaan} onChange={handleChange} />
+                  </div>
+                  <div className="col-span-2 lg:col-span-1">
+                    <Label>Status</Label>
+                    <Input type="text" name="status" value={form.status} onChange={handleChange} />
+                  </div>
+                  <div className="col-span-2 lg:col-span-1">
+                    <Label>Alamat RT 05</Label>
+                    <Input type="text" name="alamat_rt005" value={form.alamat_rt005} onChange={handleChange} />
                   </div>
 
                   <div className="col-span-2">
-                    <Label>Bio</Label>
-                    <Input type="text" value="Team Manager" />
+                    <Label>Alamat KTP</Label>
+                    <Input type="text" name="tanggal_lahir" value={form.alamat_ktp} onChange={handleChange}/>
                   </div>
                 </div>
               </div>
@@ -224,7 +317,7 @@ export default function UserMetaCard() {
               <Button size="sm" variant="outline" onClick={closeModal}>
                 Close
               </Button>
-              <Button size="sm" onClick={handleSave}>
+              <Button size="sm" type="submit">
                 Save Changes
               </Button>
             </div>

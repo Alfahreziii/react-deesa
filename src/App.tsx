@@ -22,7 +22,7 @@ import Home from "./pages/Dashboard/Home";
 import GuestRoute from "./routes/GuestRoute";
 import VerifyEmail from "./pages/AuthPages/VerifyEmail";
 import ProtectedRoute from "./routes/ProtectedRoute";
-import UserList from "./components/UserList"
+import UserList from "./components/ProfilePage"
 export default function App() {
   return (
     <>

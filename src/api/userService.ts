@@ -14,3 +14,15 @@ export const fetchUsers = async (token: string) => {
   });
   return response.data;
 };
+
+export const updateProfile = async (data: any) => {
+  const token = localStorage.getItem("token");
+  const response = await api.put(`/api/users/${data.id}`, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
+
+
