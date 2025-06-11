@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getProfile } from "../api/authService";
+import { getProfile } from "../api/services/authService";
 import Input from "./form/input/InputField";
 import Button from "./ui/button/Button";
 import Label from "./form/Label";

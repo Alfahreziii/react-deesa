@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Alert from "../ui/alert/Alert";
-import { getProfile } from "../../api/authService";
+import { getProfile } from "../../api/services/authService";
 
 export default function UserInfoCard() {
       const [loading, setLoading] = useState(true);

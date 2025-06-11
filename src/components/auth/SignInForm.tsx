@@ -6,7 +6,7 @@ import Input from "../form/input/InputField";
 import Checkbox from "../form/input/Checkbox";
 import Alert from "../ui/alert/Alert";
 import Button from "../ui/button/Button";
-import { login } from "../../api/authService"; // sesuaikan path jika perlu
+import { login } from "../../api/services/authService"; // sesuaikan path jika perlu
 
 export default function SignInForm() {
   const [loading, setLoading] = useState(false);

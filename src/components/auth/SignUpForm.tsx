@@ -5,7 +5,7 @@ import Alert from "../ui/alert/Alert";
 import Label from "../form/Label";
 import Input from "../form/input/InputField";
 import Checkbox from "../form/input/Checkbox";
-import api from '../../lib/axios';
+import api from '../../api/lib/axios';
 
 export default function SignUpForm() {
   const [step, setStep] = useState(1);

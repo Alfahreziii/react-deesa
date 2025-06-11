@@ -11,8 +11,8 @@ import Avatars from "./pages/UiElements/Avatars";
 import Buttons from "./pages/UiElements/Buttons";
 import LineChart from "./pages/Charts/LineChart";
 import BarChart from "./pages/Charts/BarChart";
-import Calendar from "./pages/Calendar";
-import BasicTables from "./pages/Tables/BasicTables";
+import BeritaTable from "./pages/Tables/BeritaTable";
+import PengajianTable from "./pages/Tables/PengajianTable.tsx";
 import FormElements from "./pages/Forms/FormElements";
 import Blank from "./pages/Blank";
 import AppLayout from "./layout/AppLayout";
@@ -22,7 +22,7 @@ import Home from "./pages/Dashboard/Home";
 import GuestRoute from "./routes/GuestRoute";
 import VerifyEmail from "./pages/AuthPages/VerifyEmail";
 import ProtectedRoute from "./routes/ProtectedRoute";
-import UserList from "./components/ProfilePage"
+import Table from "./components/tables/DataTableBerita"
 export default function App() {
   return (
     <>
@@ -36,14 +36,14 @@ export default function App() {
 
               {/* Others Page */}
               <Route path="/profile" element={<UserProfiles />} />
-              <Route path="/calendar" element={<Calendar />} />
               <Route path="/blank" element={<Blank />} />
 
               {/* Forms */}
               <Route path="/form-elements" element={<FormElements />} />
 
               {/* Tables */}
-              <Route path="/basic-tables" element={<BasicTables />} />
+              <Route path="/berita-tables" element={<BeritaTable />} />
+              <Route path="/pengajian-tables" element={<PengajianTable />} />
 
               {/* Ui Elements */}
               <Route path="/alerts" element={<Alerts />} />
@@ -68,7 +68,7 @@ export default function App() {
 
           {/* Fallback Route */}
           <Route path="*" element={<NotFound />} />
-          <Route path="/user" element={<UserList />} />
+          <Route path="/table" element={<Table />} />
         </Routes>
       </Router>
     </>

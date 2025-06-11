@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
-import axios from "../lib/axios";
+import axios from "../api/lib/axios";
 
 interface User {
   id: number;

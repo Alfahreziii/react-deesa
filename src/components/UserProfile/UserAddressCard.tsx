@@ -1,6 +1,6 @@
 import Alert from "../ui/alert/Alert";
 import { useEffect, useState } from "react";
-import { getProfile } from "../../api/authService";
+import { getProfile } from "../../api/services/authService";
 
 export default function UserAddressCard() {
         const [loading, setLoading] = useState(true);
