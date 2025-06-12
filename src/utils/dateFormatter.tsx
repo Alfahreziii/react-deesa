@@ -6,15 +6,9 @@ export const formatHari = (isoDate: string) => {
   return dayjs(isoDate).format("dddd, D MMMM YYYY");
 };
 
-export const formatJam = (start: string, end: string) => {
-  if (!start || !end) return "Jam tidak tersedia";
+export const formatJam = (jam?: string) => {
+  if (!jam) return "Invalid Time";
 
-  const startTime = dayjs(start, "HH:mm:ss");
-  const endTime = dayjs(end, "HH:mm:ss");
-
-  if (!startTime.isValid() || !endTime.isValid()) {
-    return "Invalid Date";
-  }
-
-  return `${startTime.format("HH:mm")} - ${endTime.format("HH:mm")}`;
+  const parsed = dayjs(`1970-01-01T${jam}`); // Ini selalu aman
+  return parsed.isValid() ? parsed.format("HH:mm") : "Invalid Time";
 };

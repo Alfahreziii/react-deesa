@@ -44,7 +44,7 @@ export default function App() {
               {/* Forms */}
               <Route path="/form-elements" element={<FormElements />} />
               <Route path="/form-pengajian" element={<PengajianForm />} />
-              <Route path="/form-pengajian/edit-pengajian/:id" element={<EditPengajianForm />} />
+              <Route path="/pengajian-tables/edit-pengajian/:id" element={<EditPengajianForm />} />
 
               {/* Tables */}
               <Route path="/berita-tables" element={<BeritaTable />} />

@@ -5,80 +5,89 @@ import Alert from "../../ui/alert/Alert";
 import Input from "../input/InputField";
 import { TimeIcon } from "../../../icons";
 import DatePicker from "../date-picker";
-import { createPengajian } from "../../../api/services/pengajianService";
+import { createPengajian, updatePengajian } from "../../../api/services/pengajianService";
+import { formatJam } from "../../../utils/dateFormatter";
+import dayjs from "dayjs";
 
-export default function DefaultInputs() {
+interface Props {
+  initialData?: any;
+  isUpdate?: boolean;
+}
+
+export default function PengajianFormComponent({ initialData, isUpdate = false }: Props) {
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [formData, setFormData] = useState({
-    hari: "",
-    jam_mulai: "",
-    jam_selesai: "",
-    tempat: "",
-    ustadzah: "",
+    hari: initialData?.hari || "",
+    jam_mulai: initialData?.jam_mulai || "",
+    jam_selesai: initialData?.jam_selesai || "",
+    tempat: initialData?.tempat || "",
+    ustadzah: initialData?.ustadzah || "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formData.hari || !formData.jam_mulai || !formData.jam_selesai || !formData.tempat || !formData.ustadzah) {
-        setErrorMessage("Harap isi semua field!");
-        return;
-    }
-    console.log("formData:", formData);
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
 
-    try {
-    const response = await createPengajian(formData);
-    setSuccessMessage(response.data.message || "Pengajian berhasil ditambahkan!");
-    setFormData({
+  if (!formData.hari || !formData.jam_mulai || !formData.jam_selesai || !formData.tempat || !formData.ustadzah) {
+    setErrorMessage("Harap isi semua field!");
+    return;
+  }
+
+const formattedData = {
+  ...formData,
+  hari: dayjs(formData.hari).format("YYYY-MM-DD"), // atau format lain yang kamu mau
+  jam_mulai: formatJam(formData.jam_mulai),
+  jam_selesai: formatJam(formData.jam_selesai),
+};
+
+  try {
+    if (isUpdate && initialData?.id) {
+      const response = await updatePengajian(initialData.id, formattedData);
+      setSuccessMessage(response.message || "Pengajian berhasil diperbarui!");
+    } else {
+      const response = await createPengajian(formattedData);
+      setSuccessMessage(response.message || "Pengajian berhasil ditambahkan!");
+      setFormData({
         hari: "",
         jam_mulai: "",
         jam_selesai: "",
         tempat: "",
         ustadzah: "",
-    });
-    } catch (error: any) {
-    setErrorMessage(
-        error?.response?.data?.message || "Gagal menambahkan pengajian."
-    );
+      });
     }
+  } catch (error: any) {
+    setErrorMessage(error?.message || "Terjadi kesalahan.");
+  }
+};
 
-  };
 
   return (
-    <ComponentCard title="Input Pengajian">
-        {errorMessage&& (
-            <Alert
-                variant="error"
-                title="Error Message"
-                message={errorMessage}
-            />
-        )}
-        {successMessage&& (
-            <Alert
-                variant="success"
-                title="Error Message"
-                message={successMessage}
-            />
-        )}
+    <ComponentCard title={isUpdate ? "Edit Pengajian" : "Input Pengajian"}>
+      {errorMessage && (
+        <Alert variant="error" title="Error Message" message={errorMessage} />
+      )}
+      {successMessage && (
+        <Alert variant="success" title="Success Message" message={successMessage} />
+      )}
+
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-<DatePicker
-  id="date-picker"
-  label="Hari"
-  placeholder="Select a date"
-  value={formData.hari}
-  onChange={(_, currentDateString) => {
-    setFormData((prev) => ({
-      ...prev,
-      hari: currentDateString,
-    }));
-  }}
-/>
-
+          <DatePicker
+            id="date-picker"
+            label="Hari"
+            placeholder="Select a date"
+            value={formData.hari}
+            onChange={(_, currentDateString) => {
+              setFormData((prev) => ({
+                ...prev,
+                hari: currentDateString,
+              }));
+            }}
+          />
         </div>
 
         <div>
@@ -139,7 +148,7 @@ export default function DefaultInputs() {
           type="submit"
           className="px-4 py-2 mt-4 text-white bg-blue-600 rounded hover:bg-blue-700"
         >
-          Simpan Pengajian
+          {isUpdate ? "Perbarui Pengajian" : "Simpan Pengajian"}
         </button>
       </form>
     </ComponentCard>

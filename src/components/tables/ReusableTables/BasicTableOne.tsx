@@ -170,7 +170,7 @@ export default function DataTable<T extends { [key: string]: any }>({
           Prev
         </Button>
 
-        <span className="mx-5 text-sm">
+        <span className="mx-5 text-sm dark:text-white/90">
           Page {currentPage} of {totalPages}
         </span>
 

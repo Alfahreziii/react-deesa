@@ -8,6 +8,8 @@ import DataTable from "./ReusableTables/BasicTableOne";
 import { ColumnConfig } from "./ReusableTables/BasicTableOne";
 import { formatHari } from "../../utils/dateFormatter";
 import { useNavigate } from "react-router";
+import { showAlert, showConfirmAlert } from "../ui/alert/AlertPopup"; // path sesuaikan dengan strukturmu
+
 
 const PengajianTable: React.FC = () => {
   const [pengajian, setPengajian] = useState<Pengajian[]>([]);
@@ -32,19 +34,26 @@ const PengajianTable: React.FC = () => {
     }
   };
 
-  const handleDelete = async (id: number) => {
-    if (confirm("Yakin ingin menghapus data ini?")) {
-      try {
-        await deletePengajian(id);
-        fetchData(); // refresh data setelah delete
-      } catch (error) {
-        alert("Gagal menghapus data.");
-      }
+const handleDelete = async (id: number) => {
+  const confirmed = await showConfirmAlert(
+    "Yakin ingin menghapus?",
+    "Tindakan ini tidak bisa dibatalkan!"
+  );
+
+  if (confirmed) {
+    try {
+      await deletePengajian(id);
+      showAlert("Berhasil", "Data berhasil dihapus", "success");
+      fetchData(); // refresh data setelah delete
+    } catch (error) {
+      showAlert("Gagal", "Gagal menghapus data", "error");
     }
-  };
+  }
+};
+
 
   const handleEdit = (id: number) => {
-    navigate(`/form-pengajian/edit-pengajian/${id}`);
+    navigate(`/pengajian-tables/edit-pengajian/${id}`);
   };
 
   const columns: ColumnConfig<Pengajian>[] = [
