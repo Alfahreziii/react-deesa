@@ -18,6 +18,8 @@ import AppLayout from "./layout/AppLayout";
 import { ScrollToTop } from "./components/common/ScrollToTop";
 import Home from "./pages/Dashboard/Home";
 
+import BeritaForm from "./pages/Forms/BeritaForm"
+import EditBeritaForm from "./pages/Forms/EditBeritaForm";
 import PengajianForm from "./pages/Forms/PengajianForm";
 import EditPengajianForm from "./pages/Forms/EditPengajianForm";
 import BeritaTable from "./pages/Tables/BeritaTable";
@@ -43,8 +45,12 @@ export default function App() {
 
               {/* Forms */}
               <Route path="/form-elements" element={<FormElements />} />
+
               <Route path="/form-pengajian" element={<PengajianForm />} />
               <Route path="/pengajian-tables/edit-pengajian/:id" element={<EditPengajianForm />} />
+
+              <Route path="/form-berita" element={<BeritaForm />} />
+              <Route path="/berita-tables/edit-berita/:id" element={<EditBeritaForm />} />
 
               {/* Tables */}
               <Route path="/berita-tables" element={<BeritaTable />} />

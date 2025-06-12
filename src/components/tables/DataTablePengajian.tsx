@@ -15,7 +15,6 @@ const PengajianTable: React.FC = () => {
   const [pengajian, setPengajian] = useState<Pengajian[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-
   const navigate = useNavigate();
 
   useEffect(() => {

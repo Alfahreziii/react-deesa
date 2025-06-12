@@ -1,41 +1,58 @@
-// src/pages/BeritaTable.tsx
-
 import React, { useEffect, useState } from "react";
 import { Berita } from "../../api/types/berita";
-import { getBerita } from "../../api/services/beritaService";
+import { 
+  getBerita,
+  deleteBerita,
+} from "../../api/services/beritaService";
 import DataTable from "./ReusableTables/BasicTableOne";
 import {ColumnConfig } from "./ReusableTables/BasicTableOne";
+import { useNavigate } from "react-router";
+import { showAlert, showConfirmAlert } from "../ui/alert/AlertPopup"; // path sesuaikan dengan strukturmu
 
 const BeritaTable: React.FC = () => {
   const [berita, setBerita] = useState<Berita[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getBerita();
-        setBerita(data);
-      } catch (err) {
-        setError((err as Error).message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchData();
   }, []);
 
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const data = await getBerita();
+      setBerita(data);
+    } catch (err) {
+      setError((err as Error).message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async (id: number) => {
+    const confirmed = await showConfirmAlert(
+      "Yakin ingin menghapus?",
+      "Tindakan ini tidak bisa dibatalkan!"
+    );
+  
+    if (confirmed) {
+      try {
+        await deleteBerita(id);
+        showAlert("Berhasil", "Data berhasil dihapus", "success");
+        fetchData(); // refresh data setelah delete
+      } catch (error) {
+        showAlert("Gagal", "Gagal menghapus data", "error");
+      }
+    }
+  };
+  const handleEdit = (id: number) => {
+    navigate(`/berita-tables/edit-berita/${id}`);
+  };
+
 const columns: ColumnConfig<Berita>[] = [
-  {
-    header: "Judul",
-    accessor: "judul",
-  },
-  {
-    header: "Deskripsi",
-    accessor: "deskripsi",
-  },
-  {
+    {
     header: "Foto",
     accessor: "foto",
     render: (value: string) => (
@@ -47,6 +64,14 @@ const columns: ColumnConfig<Berita>[] = [
     ),
   },
   {
+    header: "Judul",
+    accessor: "judul",
+  },
+  {
+    header: "Deskripsi",
+    accessor: "deskripsi",
+  },
+  {
     header: "Dibuat Pada",
     accessor: "created_at",
     render: (value: string) =>
@@ -55,6 +80,26 @@ const columns: ColumnConfig<Berita>[] = [
         timeStyle: "short",
       }),
   },
+      {
+        header: "Aksi",
+        accessor: "id",
+        render: (_value: any, row: Berita) => (
+          <div className="flex gap-2">
+            <button
+              onClick={() => handleEdit(row.id)}
+              className="px-3 py-1 bg-blue-500 text-white rounded"
+            >
+              Edit
+            </button>
+            <button
+              onClick={() => handleDelete(row.id)}
+              className="px-3 py-1 bg-red-500 text-white rounded"
+            >
+              Hapus
+            </button>
+          </div>
+        ),
+      },
 ];
 
 
@@ -64,7 +109,11 @@ const columns: ColumnConfig<Berita>[] = [
 
   return (
     <div>
-      <DataTable<Berita> data={berita} columns={columns} />
+      <DataTable<Berita> 
+        data={berita} 
+        columns={columns} 
+        createLink="/form-berita"
+      />
     </div>
   );
 };

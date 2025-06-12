@@ -34,6 +34,7 @@ const handleSubmit = async (e: React.FormEvent) => {
 
   if (!formData.hari || !formData.jam_mulai || !formData.jam_selesai || !formData.tempat || !formData.ustadzah) {
     setErrorMessage("Harap isi semua field!");
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     return;
   }
 
@@ -59,8 +60,10 @@ const formattedData = {
         ustadzah: "",
       });
     }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   } catch (error: any) {
     setErrorMessage(error?.message || "Terjadi kesalahan.");
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 };
 
