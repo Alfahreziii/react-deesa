@@ -11,14 +11,17 @@ import Avatars from "./pages/UiElements/Avatars";
 import Buttons from "./pages/UiElements/Buttons";
 import LineChart from "./pages/Charts/LineChart";
 import BarChart from "./pages/Charts/BarChart";
-import BeritaTable from "./pages/Tables/BeritaTable";
-import PengajianTable from "./pages/Tables/PengajianTable.tsx";
+
 import FormElements from "./pages/Forms/FormElements";
 import Blank from "./pages/Blank";
 import AppLayout from "./layout/AppLayout";
 import { ScrollToTop } from "./components/common/ScrollToTop";
 import Home from "./pages/Dashboard/Home";
 
+import PengajianForm from "./pages/Forms/PengajianForm";
+import EditPengajianForm from "./pages/Forms/EditPengajianForm";
+import BeritaTable from "./pages/Tables/BeritaTable";
+import PengajianTable from "./pages/Tables/PengajianTable.tsx";
 import GuestRoute from "./routes/GuestRoute";
 import VerifyEmail from "./pages/AuthPages/VerifyEmail";
 import ProtectedRoute from "./routes/ProtectedRoute";
@@ -40,6 +43,8 @@ export default function App() {
 
               {/* Forms */}
               <Route path="/form-elements" element={<FormElements />} />
+              <Route path="/form-pengajian" element={<PengajianForm />} />
+              <Route path="/form-pengajian/edit-pengajian/:id" element={<EditPengajianForm />} />
 
               {/* Tables */}
               <Route path="/berita-tables" element={<BeritaTable />} />

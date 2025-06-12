@@ -1,4 +1,4 @@
-// src/components/shared/DataTable.tsx
+import { useNavigate } from "react-router";
 import Button from "../../ui/button/Button";
 import React, { useMemo, useState } from "react";
 import {
@@ -18,18 +18,20 @@ export interface ColumnConfig<T> {
 interface DataTableProps<T extends { [key: string]: any }> {
   data: T[];
   columns: ColumnConfig<T>[];
+  createLink?: string;
 }
 
 export default function DataTable<T extends { [key: string]: any }>({
   data,
   columns,
+  createLink,
 }: DataTableProps<T>) {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortColumn, setSortColumn] = useState<keyof T | null>(null);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(5); // default 5 rows per page
-
+  const navigate = useNavigate();
   // Handle sort
   const handleSort = (column: keyof T) => {
     if (sortColumn === column) {
@@ -104,6 +106,16 @@ export default function DataTable<T extends { [key: string]: any }>({
             </option>
           ))}
         </select>
+        {createLink && (
+          <Button
+            variant="primary"
+            size="sm"
+            onClick={() => navigate(createLink)}
+            className="ml-auto cursor-pointer"
+          >
+            Tambah Data
+          </Button>
+        )}
       </div>
       {/* Table */}
       <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
