@@ -51,17 +51,20 @@ export default function PengajianFormComponent({ initialData, isUpdate = false }
 const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
 
-  if (!formData.judul || !message || !fotoFile) {
+    if (!formData.judul || !message || (!isUpdate && !fotoFile)) {
     setErrorMessage("Harap isi semua field!");
-    setSuccessMessage(""); // Kosongkan pesan sukses agar tidak bertabrakan
+    setSuccessMessage("");
     window.scrollTo({ top: 0, behavior: 'smooth' });
     return;
-  }
+    }
 
-  const data = new FormData();
-  data.append("judul", formData.judul);
-  data.append("deskripsi", message);
-  data.append("foto", fotoFile);
+
+    const data = new FormData();
+    data.append("judul", formData.judul);
+    data.append("deskripsi", message);
+    if (fotoFile) {
+        data.append("foto", fotoFile);
+    }
 
   try {
     if (isUpdate && initialData?.id) {

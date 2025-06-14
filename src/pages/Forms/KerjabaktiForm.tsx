@@ -1,5 +1,5 @@
 import PageBreadcrumb from "../../components/common/PageBreadCrumb";
-import BeritaInputs from "../../components/form/form-elements/BeritaInputs";
+import KerjabaktiInputs from "../../components/form/form-elements/KerjabaktiInputs.tsx";
 import PageMeta from "../../components/common/PageMeta";
 
 export default function TahlilForm() {
@@ -9,10 +9,10 @@ export default function TahlilForm() {
         title="Concept"
         description="Concept"
       />
-      <PageBreadcrumb pageTitle="Form Berita" />
+      <PageBreadcrumb pageTitle="Form Kerja Bakti" />
       <div className="grid grid-cols-1">
         <div className="space-y-6">
-          <BeritaInputs />
+          <KerjabaktiInputs />
         </div>
       </div>
     </div>

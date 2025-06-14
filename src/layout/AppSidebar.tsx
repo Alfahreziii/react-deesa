@@ -11,6 +11,8 @@ import {
   PageIcon,
   PieChartIcon,
   TableIcon,
+  DocsIcon,
+  PaperPlaneIcon,
   UserCircleIcon,
 } from "../icons";
 import { useSidebar } from "../context/SidebarContext";
@@ -32,8 +34,21 @@ const navItems: NavItem[] = [
     icon: <TableIcon />,
     subItems: [
       { name: "Berita", path: "/berita-tables", pro: false },
+      { name: "Rapat", path: "/rapat-tables", pro: false },
+      { name: "Kerja Bakti", path: "/kerjabakti-tables", pro: false },
       { name: "Pengajian", path: "/pengajian-tables", pro: false },
+      { name: "Tahlil", path: "/tahlil-tables", pro: false },
     ],
+  },
+  {
+    icon: <DocsIcon />,
+    name: "Aduan",
+    path: "/aduan-tables",
+  },
+  {
+    icon: <PaperPlaneIcon />,
+    name: "Surat",
+    path: "/surat-tables",
   },
   {
     icon: <UserCircleIcon />,

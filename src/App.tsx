@@ -20,10 +20,28 @@ import Home from "./pages/Dashboard/Home";
 
 import BeritaForm from "./pages/Forms/BeritaForm"
 import EditBeritaForm from "./pages/Forms/EditBeritaForm";
+import BeritaTable from "./pages/Tables/BeritaTable";
+
 import PengajianForm from "./pages/Forms/PengajianForm";
 import EditPengajianForm from "./pages/Forms/EditPengajianForm";
-import BeritaTable from "./pages/Tables/BeritaTable";
 import PengajianTable from "./pages/Tables/PengajianTable.tsx";
+
+import TahlilForm from "./pages/Forms/TahlilForm.tsx";
+import EditTahlilForm from "./pages/Forms/EditTahlilForm.tsx";
+import TahlilTable from "./pages/Tables/TahlilTable";
+
+import KerjabaktiForm from "./pages/Forms/KerjabaktiForm.tsx";
+import EditKerjabaktiForm from "./pages/Forms/EditKerjabaktiForm.tsx";
+import KerjabaktiTable from "./pages/Tables/KerjabaktiTable";
+
+import RapatForm from "./pages/Forms/RapatForm";
+import EditRapatForm from "./pages/Forms/EditRapatForm";
+import RapatTable from "./pages/Tables/RapatTable";
+
+import SuratTable from "./pages/Tables/SuratTable";
+
+import AduanTable from "./pages/Tables/AduanTable.tsx";
+
 import GuestRoute from "./routes/GuestRoute";
 import VerifyEmail from "./pages/AuthPages/VerifyEmail";
 import ProtectedRoute from "./routes/ProtectedRoute";
@@ -52,9 +70,23 @@ export default function App() {
               <Route path="/form-berita" element={<BeritaForm />} />
               <Route path="/berita-tables/edit-berita/:id" element={<EditBeritaForm />} />
 
+              <Route path="/form-kerjabakti" element={<KerjabaktiForm />} />
+              <Route path="/kerjabakti-tables/edit-kerjabakti/:id" element={<EditKerjabaktiForm />} />
+
+              <Route path="/form-tahlil" element={<TahlilForm />} />
+              <Route path="/tahlil-tables/edit-tahlil/:id" element={<EditTahlilForm />} />
+
+              <Route path="/form-rapat" element={<RapatForm />} />
+              <Route path="/rapat-tables/edit-rapat/:id" element={<EditRapatForm />} />
+
               {/* Tables */}
               <Route path="/berita-tables" element={<BeritaTable />} />
               <Route path="/pengajian-tables" element={<PengajianTable />} />
+              <Route path="/aduan-tables" element={<AduanTable />} />
+              <Route path="/kerjabakti-tables" element={<KerjabaktiTable />} />
+              <Route path="/tahlil-tables" element={<TahlilTable />} />
+              <Route path="/rapat-tables" element={<RapatTable />} />
+              <Route path="/surat-tables" element={<SuratTable />} />
 
               {/* Ui Elements */}
               <Route path="/alerts" element={<Alerts />} />

@@ -1,4 +1,3 @@
-// api/services/berita.service.ts
 import api from '../lib/axios';
 import { Berita } from '../types/berita';
 

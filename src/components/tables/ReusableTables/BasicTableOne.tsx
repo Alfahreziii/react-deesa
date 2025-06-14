@@ -19,12 +19,14 @@ interface DataTableProps<T extends { [key: string]: any }> {
   data: T[];
   columns: ColumnConfig<T>[];
   createLink?: string;
+  onCreate?: () => void;
 }
 
 export default function DataTable<T extends { [key: string]: any }>({
   data,
   columns,
   createLink,
+  onCreate,
 }: DataTableProps<T>) {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortColumn, setSortColumn] = useState<keyof T | null>(null);
@@ -116,6 +118,17 @@ export default function DataTable<T extends { [key: string]: any }>({
             Tambah Data
           </Button>
         )}
+        {onCreate && (
+          <Button
+            variant="primary"
+            size="sm"
+            onClick={onCreate}
+            className="ml-auto cursor-pointe"
+          >
+            Tambah Data
+          </Button>
+        )}
+
       </div>
       {/* Table */}
       <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
