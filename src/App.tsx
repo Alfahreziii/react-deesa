@@ -38,6 +38,11 @@ import RapatForm from "./pages/Forms/RapatForm";
 import EditRapatForm from "./pages/Forms/EditRapatForm";
 import RapatTable from "./pages/Tables/RapatTable";
 
+import PendudukForm from "./pages/Forms/PendudukForm";
+import EditPendudukForm from "./pages/Forms/EditPendudukForm";
+import DetailPendudukForm from "./pages/Forms/DetailPendudukForm";
+import PendudukTable from "./pages/Tables/PendudukTable";
+
 import SuratTable from "./pages/Tables/SuratTable";
 
 import AduanTable from "./pages/Tables/AduanTable.tsx";
@@ -79,6 +84,10 @@ export default function App() {
               <Route path="/form-rapat" element={<RapatForm />} />
               <Route path="/rapat-tables/edit-rapat/:id" element={<EditRapatForm />} />
 
+              <Route path="/form-penduduk" element={<PendudukForm />} />
+              <Route path="/penduduk-tables/edit-penduduk/:id" element={<EditPendudukForm />} />
+              <Route path="/penduduk-tables/detail-penduduk/:id" element={<DetailPendudukForm />} />
+
               {/* Tables */}
               <Route path="/berita-tables" element={<BeritaTable />} />
               <Route path="/pengajian-tables" element={<PengajianTable />} />
@@ -87,6 +96,7 @@ export default function App() {
               <Route path="/tahlil-tables" element={<TahlilTable />} />
               <Route path="/rapat-tables" element={<RapatTable />} />
               <Route path="/surat-tables" element={<SuratTable />} />
+              <Route path="/penduduk-tables" element={<PendudukTable />} />
 
               {/* Ui Elements */}
               <Route path="/alerts" element={<Alerts />} />

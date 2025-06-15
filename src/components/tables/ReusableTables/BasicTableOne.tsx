@@ -13,6 +13,7 @@ export interface ColumnConfig<T> {
   header: string;
   accessor: keyof T;
   render?: (value: any, row: T, index: number) => React.ReactNode;
+  className?: string;
 }
 
 interface DataTableProps<T extends { [key: string]: any }> {
@@ -133,6 +134,7 @@ export default function DataTable<T extends { [key: string]: any }>({
       {/* Table */}
       <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
         <div className="max-w-full overflow-x-auto">
+          <div className="max-w-[1000px]">
           <Table>
             <TableHeader className="border-b border-gray-100 dark:border-white/[0.05]">
               <TableRow>
@@ -141,7 +143,7 @@ export default function DataTable<T extends { [key: string]: any }>({
                     key={idx}
                     isHeader
                     onClick={() => handleSort(col.accessor)}
-                    className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-300 cursor-pointer hover:underline"
+                    className={`px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-300 cursor-pointer hover:underline ${col.className || ""}`}
                   >
                     {col.header}
                     {sortColumn === col.accessor &&
@@ -157,7 +159,7 @@ export default function DataTable<T extends { [key: string]: any }>({
                   {columns.map((col, colIndex) => (
                     <TableCell
                       key={colIndex}
-                      className="px-5 py-4 text-start dark:text-white/90"
+                      className={`px-5 py-4 text-start dark:text-white/90 ${col.className || ""}`}
                     >
                       {col.render
                         ? col.render(row[col.accessor], row, rowIndex)
@@ -168,6 +170,7 @@ export default function DataTable<T extends { [key: string]: any }>({
               ))}
             </TableBody>
           </Table>
+          </div>
         </div>
       </div>
 

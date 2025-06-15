@@ -7,13 +7,13 @@ import {
   ChevronDownIcon,
   GridIcon,
   HorizontaLDots,
-  ListIcon,
   PageIcon,
   PieChartIcon,
   TableIcon,
   DocsIcon,
   PaperPlaneIcon,
   UserCircleIcon,
+  UserIcon,
 } from "../icons";
 import { useSidebar } from "../context/SidebarContext";
 type NavItem = {
@@ -41,6 +41,16 @@ const navItems: NavItem[] = [
     ],
   },
   {
+    icon: <PageIcon />,
+    name: "Laporan",
+    path: "/laporan-tables",
+  },
+  {
+    icon: <UserCircleIcon />,
+    name: "Penduduk",
+    path: "/penduduk-tables",
+  },
+  {
     icon: <DocsIcon />,
     name: "Aduan",
     path: "/aduan-tables",
@@ -51,22 +61,9 @@ const navItems: NavItem[] = [
     path: "/surat-tables",
   },
   {
-    icon: <UserCircleIcon />,
+    icon: <UserIcon />,
     name: "User Profile",
     path: "/profile",
-  },
-  {
-    name: "Forms",
-    icon: <ListIcon />,
-    subItems: [{ name: "Form Elements", path: "/form-elements", pro: false }],
-  },
-  {
-    name: "Pages",
-    icon: <PageIcon />,
-    subItems: [
-      { name: "Blank Page", path: "/blank", pro: false },
-      { name: "404 Error", path: "/error-404", pro: false },
-    ],
   },
 ];
 
