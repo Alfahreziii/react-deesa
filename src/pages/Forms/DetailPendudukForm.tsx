@@ -5,7 +5,7 @@ import PageMeta from "../../components/common/PageMeta";
 import PageBreadcrumb from "../../components/common/PageBreadCrumb";
 import PendudukFormComponent from "../../components/form/form-elements/PendudukInputs.tsx";
 
-export default function EditRapatPage() {
+export default function EditPendudukPage() {
   const { id } = useParams();
   const [initialData, setInitialData] = useState<any>(null);
 
@@ -30,7 +30,7 @@ export default function EditRapatPage() {
         title="Concept"
         description="Concept"
       />
-      <PageBreadcrumb pageTitle="Form Rapat" />
+      <PageBreadcrumb pageTitle="Detail Penduduk" />
       <div className="grid grid-cols-1">
         <div className="space-y-6">
           {initialData && (

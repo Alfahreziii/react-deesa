@@ -43,6 +43,10 @@ import EditPendudukForm from "./pages/Forms/EditPendudukForm";
 import DetailPendudukForm from "./pages/Forms/DetailPendudukForm";
 import PendudukTable from "./pages/Tables/PendudukTable";
 
+import LaporanTable from "./pages/Tables/LaporanTable";
+import LaporanForm from "./pages/Forms/LaporanForm";
+import EditLaporanForm from "./pages/Forms/EditLaporanForm";
+
 import SuratTable from "./pages/Tables/SuratTable";
 
 import AduanTable from "./pages/Tables/AduanTable.tsx";
@@ -88,6 +92,9 @@ export default function App() {
               <Route path="/penduduk-tables/edit-penduduk/:id" element={<EditPendudukForm />} />
               <Route path="/penduduk-tables/detail-penduduk/:id" element={<DetailPendudukForm />} />
 
+              <Route path="/form-laporan" element={<LaporanForm />} />
+              <Route path="/laporan-tables/edit-laporan/:id" element={<EditLaporanForm />} />
+
               {/* Tables */}
               <Route path="/berita-tables" element={<BeritaTable />} />
               <Route path="/pengajian-tables" element={<PengajianTable />} />
@@ -97,6 +104,7 @@ export default function App() {
               <Route path="/rapat-tables" element={<RapatTable />} />
               <Route path="/surat-tables" element={<SuratTable />} />
               <Route path="/penduduk-tables" element={<PendudukTable />} />
+              <Route path="/laporan-tables" element={<LaporanTable />} />
 
               {/* Ui Elements */}
               <Route path="/alerts" element={<Alerts />} />

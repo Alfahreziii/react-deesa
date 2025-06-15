@@ -2,7 +2,7 @@ import PageBreadcrumb from "../../components/common/PageBreadCrumb";
 import PendudukInputs from "../../components/form/form-elements/PendudukInputs.tsx";
 import PageMeta from "../../components/common/PageMeta";
 
-export default function TahlilForm() {
+export default function PendudukForm() {
   return (
     <div>
       <PageMeta

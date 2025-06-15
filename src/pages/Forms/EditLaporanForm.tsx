@@ -1,18 +1,18 @@
 import { useParams } from "react-router";
 import { useEffect, useState } from "react";
-import { getPendudukById } from "../../api/services/pendudukService.tsx";
+import { getLaporanById } from "../../api/services/laporanService.tsx";
 import PageMeta from "../../components/common/PageMeta";
 import PageBreadcrumb from "../../components/common/PageBreadCrumb";
-import PendudukFormComponent from "../../components/form/form-elements/PendudukInputs.tsx";
+import LaporanFormComponent from "../../components/form/form-elements/LaporanInputs.tsx";
 
-export default function EditPendudukPage() {
+export default function EditLaporanPage() {
   const { id } = useParams();
   const [initialData, setInitialData] = useState<any>(null);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const data = await getPendudukById(Number(id));
+        const data = await getLaporanById(Number(id));
         setInitialData(data);
       } catch (error) {
         console.error("Gagal mengambil data:", error);
@@ -30,11 +30,11 @@ export default function EditPendudukPage() {
         title="Concept"
         description="Concept"
       />
-      <PageBreadcrumb pageTitle="Form Penduduk" />
+      <PageBreadcrumb pageTitle="Form Laporan" />
       <div className="grid grid-cols-1">
         <div className="space-y-6">
           {initialData && (
-            <PendudukFormComponent initialData={initialData} isUpdate />
+            <LaporanFormComponent initialData={initialData} isUpdate />
           )}
         </div>
       </div>
