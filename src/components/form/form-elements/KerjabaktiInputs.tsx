@@ -12,9 +12,10 @@ import dayjs from "dayjs";
 interface Props {
   initialData?: any;
   isUpdate?: boolean;
+  isDetail?: boolean;
 }
 
-export default function KerjabaktiFormComponent({ initialData, isUpdate = false }: Props) {
+export default function KerjabaktiFormComponent({ initialData, isUpdate = false, isDetail = false }: Props) {
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [formData, setFormData] = useState({
@@ -82,6 +83,7 @@ const formattedData = {
           <DatePicker
             id="date-picker"
             label="Hari"
+            disabled={isDetail}
             placeholder="Select a date"
             value={formData.hari}
             onChange={(_, currentDateString) => {
@@ -100,6 +102,7 @@ const formattedData = {
               type="time"
               id="jam_mulai"
               name="jam_mulai"
+              disabled={isDetail}
               value={formData.jam_mulai}
               onChange={handleChange}
             />
@@ -116,6 +119,7 @@ const formattedData = {
               type="time"
               id="jam_selesai"
               name="jam_selesai"
+              disabled={isDetail}
               value={formData.jam_selesai}
               onChange={handleChange}
             />
@@ -131,6 +135,7 @@ const formattedData = {
             type="text"
             id="tempat"
             name="tempat"
+            disabled={isDetail}
             value={formData.tempat}
             onChange={handleChange}
           />
@@ -142,17 +147,19 @@ const formattedData = {
             type="text"
             id="peserta"
             name="peserta"
+            disabled={isDetail}
             value={formData.peserta}
             onChange={handleChange}
           />
         </div>
-
+        {!isDetail && (
         <button
-          type="submit"
-          className="px-4 py-2 mt-4 text-white bg-blue-600 rounded hover:bg-blue-700"
+            type="submit"
+            className="px-4 py-2 mt-4 text-white bg-blue-600 rounded hover:bg-blue-700"
         >
-          {isUpdate ? "Perbarui Kerja Bakti" : "Simpan Kerja Bakti"}
+            {isUpdate ? "Perbarui Kerja Bakti" : "Simpan Kerja Bakti"}
         </button>
+        )}
       </form>
     </ComponentCard>
   );

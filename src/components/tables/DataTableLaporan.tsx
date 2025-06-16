@@ -33,6 +33,9 @@ const LaporanTable: React.FC = () => {
   const handleEdit = (id: number) => {
     navigate(`/laporan-tables/edit-laporan/${id}`);
   };
+  const handleDetail = (id: number) => {
+    navigate(`/laporan-tables/detail-laporan/${id}`);
+  };
 
   const columns: ColumnConfig<LaporanPenduduk>[] = [
     {
@@ -79,6 +82,12 @@ const LaporanTable: React.FC = () => {
             className="px-3 py-1 bg-blue-500 text-white rounded"
           >
             Edit
+          </button>
+                    <button
+            onClick={() => handleDetail(row.id)}
+            className="px-3 py-1 bg-blue-500 text-white rounded"
+          >
+            Detail
           </button>
         </div>
       ),

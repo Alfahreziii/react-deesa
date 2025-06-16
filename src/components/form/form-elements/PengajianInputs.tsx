@@ -12,9 +12,10 @@ import dayjs from "dayjs";
 interface Props {
   initialData?: any;
   isUpdate?: boolean;
+  isDetail?: boolean;
 }
 
-export default function PengajianFormComponent({ initialData, isUpdate = false }: Props) {
+export default function PengajianFormComponent({ initialData, isUpdate = false, isDetail = false }: Props) {
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [formData, setFormData] = useState({
@@ -83,6 +84,7 @@ const formattedData = {
             id="date-picker"
             label="Hari"
             placeholder="Select a date"
+            disabled={isDetail}
             value={formData.hari}
             onChange={(_, currentDateString) => {
               setFormData((prev) => ({
@@ -100,6 +102,7 @@ const formattedData = {
               type="time"
               id="jam_mulai"
               name="jam_mulai"
+              disabled={isDetail}
               value={formData.jam_mulai}
               onChange={handleChange}
             />
@@ -116,6 +119,7 @@ const formattedData = {
               type="time"
               id="jam_selesai"
               name="jam_selesai"
+              disabled={isDetail}
               value={formData.jam_selesai}
               onChange={handleChange}
             />
@@ -130,6 +134,7 @@ const formattedData = {
           <Input
             type="text"
             id="tempat"
+            disabled={isDetail}
             name="tempat"
             value={formData.tempat}
             onChange={handleChange}
@@ -142,17 +147,20 @@ const formattedData = {
             type="text"
             id="ustadzah"
             name="ustadzah"
+            disabled={isDetail}
             value={formData.ustadzah}
             onChange={handleChange}
           />
         </div>
 
+        {!isDetail && (
         <button
-          type="submit"
-          className="px-4 py-2 mt-4 text-white bg-blue-600 rounded hover:bg-blue-700"
+            type="submit"
+            className="px-4 py-2 mt-4 text-white bg-blue-600 rounded hover:bg-blue-700"
         >
-          {isUpdate ? "Perbarui Pengajian" : "Simpan Pengajian"}
+            {isUpdate ? "Perbarui Pengajian" : "Simpan Pengajian"}
         </button>
+        )}
       </form>
     </ComponentCard>
   );

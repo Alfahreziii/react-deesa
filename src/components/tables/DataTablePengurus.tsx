@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
-import { Aduan } from "../../api/types/aduan";
+import { Pengurus } from "../../api/types/pengurus";
 import { 
-  getAduan,
-  deleteAduan,
-} from "../../api/services/aduanService";
+  getPengurus,
+  deletePengurus,
+} from "../../api/services/pengurusService";
 import DataTable from "./ReusableTables/BasicTableOne";
 import {ColumnConfig } from "./ReusableTables/BasicTableOne";
+import { useNavigate } from "react-router";
 import { showAlert, showConfirmAlert } from "../ui/alert/AlertPopup"; // path sesuaikan dengan strukturmu
 
-const AduanTable: React.FC = () => {
-  const [aduan, setAduan] = useState<Aduan[]>([]);
+const PengurusTable: React.FC = () => {
+  const [pengurus, setPengurus] = useState<Pengurus[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
@@ -22,8 +22,8 @@ const AduanTable: React.FC = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const data = await getAduan();
-      setAduan(data);
+      const data = await getPengurus();
+      setPengurus(data);
     } catch (err) {
       setError((err as Error).message);
     } finally {
@@ -39,7 +39,7 @@ const AduanTable: React.FC = () => {
   
     if (confirmed) {
       try {
-        await deleteAduan(id);
+        await deletePengurus(id);
         showAlert("Berhasil", "Data berhasil dihapus", "success");
         fetchData(); // refresh data setelah delete
       } catch (error) {
@@ -47,11 +47,14 @@ const AduanTable: React.FC = () => {
       }
     }
   };
-
-    const handleDetail = (id: number) => {
-    navigate(`/aduan-tables/detail-aduan/${id}`);
+  const handleEdit = (id: number) => {
+    navigate(`/pengurus-tables/edit-pengurus/${id}`);
   };
-const columns: ColumnConfig<Aduan>[] = [
+  const handleDetail = (id: number) => {
+    navigate(`/pengurus-tables/detail-pengurus/${id}`);
+  };
+
+const columns: ColumnConfig<Pengurus>[] = [
     {
     header: "Foto",
     accessor: "foto",
@@ -59,21 +62,34 @@ const columns: ColumnConfig<Aduan>[] = [
       <img
         src={`${import.meta.env.VITE_API_URL}/file/${value}`}
         alt="Foto"
-        className="w-16 h-16 object-cover rounded"
+        className="w-20 h-20 object-cover rounded max-w-[300px]"
       />
     ),
   },
   {
-    header: "Judul",
-    accessor: "judul",
+    header: "Nama",
+    accessor: "nama",
   },
   {
-    header: "Keterangan",
-    accessor: "keterangan",
+    header: "Email",
+    accessor: "email",
+  },
+  {
+    header: "Jabatan",
+    accessor: "jabatan",
+  },
+  {
+    header: "Alamat",
+    accessor: "alamat",
+  },
+  {
+    header: "No HP",
+    accessor: "no_hp",
   },
   {
     header: "Dibuat Pada",
     accessor: "created_at",
+    
     render: (value: string) =>
       new Date(value).toLocaleString("id-ID", {
         dateStyle: "medium",
@@ -83,9 +99,15 @@ const columns: ColumnConfig<Aduan>[] = [
       {
         header: "Aksi",
         accessor: "id",
-        render: (_value: any, row: Aduan) => (
+        render: (_value: any, row: Pengurus) => (
           <div className="flex gap-2">
-          <button
+            <button
+              onClick={() => handleEdit(row.id)}
+              className="px-3 py-1 bg-blue-500 text-white rounded"
+            >
+              Edit
+            </button>
+                      <button
             onClick={() => handleDetail(row.id)}
             className="px-3 py-1 bg-blue-500 text-white rounded"
           >
@@ -109,12 +131,13 @@ const columns: ColumnConfig<Aduan>[] = [
 
   return (
     <div>
-      <DataTable<Aduan> 
-        data={aduan} 
+      <DataTable<Pengurus> 
+        data={pengurus} 
         columns={columns} 
+        createLink="/form-pengurus"
       />
     </div>
   );
 };
 
-export default AduanTable;
+export default PengurusTable;

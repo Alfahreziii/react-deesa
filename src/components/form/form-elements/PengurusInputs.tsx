@@ -1,10 +1,9 @@
 import { useState,useEffect } from "react";
 import ComponentCard from "../../common/ComponentCard";
 import Label from "../Label";
-import TextArea from "../input/TextArea";
 import Alert from "../../ui/alert/Alert";
 import Input from "../input/InputField";
-import { createBerita, updateBerita } from "../../../api/services/beritaService";
+import { createPengurus, updatePengurus } from "../../../api/services/pengurusService";
 import DropzoneComponent from "./DropZone";
 
 interface Props {
@@ -13,22 +12,19 @@ interface Props {
   isDetail?: boolean;
 }
 
-export default function PengajianFormComponent({ initialData, isUpdate = false, isDetail = false }: Props) {
+export default function PengurusFormComponent({ initialData, isUpdate = false, isDetail = false }: Props) {
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const [message, setMessage] = useState("");
   const [fotoFile, setFotoFile] = useState<File | null>(null);
   const [fotoPreviewUrl, setFotoPreviewUrl] = useState<string | null>(null);
-  const [formData, setFormData] = useState({
-    judul: initialData?.judul || "",
-    deskripsi: initialData?.deskripsi || "",
+    const [formData, setFormData] = useState({
+    nama: initialData?.nama || "",
+    email: initialData?.email || "",
+    alamat: initialData?.alamat || "",
+    jabatan: initialData?.jabatan || "",
+    no_hp: initialData?.no_hp || "",
     foto: initialData?.foto || "",
-  });
-    useEffect(() => {
-    if (initialData?.deskripsi) {
-        setMessage(initialData.deskripsi);
-    }
-    }, [initialData]);
+    });
 
     useEffect(() => {
     if (isUpdate && initialData?.foto && !fotoFile && !fotoPreviewUrl) {
@@ -52,7 +48,7 @@ export default function PengajianFormComponent({ initialData, isUpdate = false, 
 const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
 
-    if (!formData.judul || !message || (!isUpdate && !fotoFile)) {
+    if (!formData.nama || !formData.email || !formData.alamat || !formData.jabatan || !formData.no_hp || (!isUpdate && !fotoFile)) {
     setErrorMessage("Harap isi semua field!");
     setSuccessMessage("");
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -61,23 +57,26 @@ const handleSubmit = async (e: React.FormEvent) => {
 
 
     const data = new FormData();
-    data.append("judul", formData.judul);
-    data.append("deskripsi", message);
+    data.append("nama", formData.nama);
+    data.append("email", formData.email);
+    data.append("jabatan", formData.jabatan);
+    data.append("alamat", formData.alamat);
+    data.append("no_hp", formData.no_hp);
+
     if (fotoFile) {
         data.append("foto", fotoFile);
     }
 
   try {
     if (isUpdate && initialData?.id) {
-      const response = await updateBerita(initialData.id, data);
-      setSuccessMessage(response.message || "Pengajian berhasil diperbarui!");
+      const response = await updatePengurus(initialData.id, data);
+      setSuccessMessage(response.message || "Pengurus berhasil diperbarui!");
     } else {
-      const response = await createBerita(data);
-      setSuccessMessage(response.message || "Pengajian berhasil ditambahkan!");
+      const response = await createPengurus(data);
+      setSuccessMessage(response.message || "Pengurus berhasil ditambahkan!");
 
       // Reset form
-      setFormData({ judul: "", deskripsi: "", foto: "" });
-      setMessage("");
+      setFormData({ nama: "", email: "", foto: "", jabatan: "", no_hp: "", alamat: "" });
       setFotoFile(null);
 
       if (fotoPreviewUrl) {
@@ -96,7 +95,7 @@ const handleSubmit = async (e: React.FormEvent) => {
 };
 
   return (
-    <ComponentCard title={isUpdate ? "Edit Berita" : "Input Berita"}>
+    <ComponentCard title={isUpdate ? "Edit Pengurus" : "Input Pengurus"}>
       {errorMessage && (
         <Alert variant="error" title="Error Message" message={errorMessage} />
       )}
@@ -106,27 +105,70 @@ const handleSubmit = async (e: React.FormEvent) => {
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <Label htmlFor="judul">judul</Label>
+          <Label htmlFor="nama">nama</Label>
           <Input
             type="text"
-            id="judul"
-            name="judul"
+            id="nama"
+            name="nama"
             disabled={isDetail}
-            value={formData.judul}
+            value={formData.nama}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <Label htmlFor="email">email</Label>
+          <Input
+            type="text"
+            id="email"
+            name="email"
+            disabled={isDetail}
+            value={formData.email}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <Label htmlFor="jabatan">jabatan</Label>
+          <Input
+            type="text"
+            id="jabatan"
+            name="jabatan"
+            disabled={isDetail}
+            value={formData.jabatan}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <Label htmlFor="alamat">alamat</Label>
+          <Input
+            type="text"
+            id="alamat"
+            name="alamat"
+            disabled={isDetail}
+            value={formData.alamat}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <Label htmlFor="no_hp">no_hp</Label>
+          <Input
+            type="text"
+            id="no_hp"
+            name="no_hp"
+            disabled={isDetail}
+            value={formData.no_hp}
             onChange={handleChange}
           />
         </div>
 
-        {/* Default TextArea */}
-        <div>
-          <Label>Deskripsi</Label>
-          <TextArea
-            value={message}
-            disabled={isDetail}
-            onChange={(value) => setMessage(value)}
-            rows={6}
-          />
-        </div>
+            {fotoPreviewUrl && (
+            <img
+                src={fotoPreviewUrl.startsWith("blob:")
+                ? fotoPreviewUrl
+                : `${import.meta.env.VITE_API_URL}/file/${fotoPreviewUrl}`}
+                alt="Preview"
+                className="w-40 h-auto mt-2 rounded"
+            />
+            )}
 {(fotoPreviewUrl || initialData?.foto) && (
   <img
     src={
@@ -157,13 +199,12 @@ const handleSubmit = async (e: React.FormEvent) => {
   </div>
 )}
 
-
         {!isDetail && (
         <button
             type="submit"
             className="px-4 py-2 mt-4 text-white bg-blue-600 rounded hover:bg-blue-700"
         >
-            {isUpdate ? "Perbarui Berita" : "Simpan Berita"}
+            {isUpdate ? "Perbarui Pengurus" : "Simpan Pengurus"}
         </button>
         )}
       </form>

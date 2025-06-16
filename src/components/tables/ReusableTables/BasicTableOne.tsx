@@ -143,7 +143,7 @@ export default function DataTable<T extends { [key: string]: any }>({
                     key={idx}
                     isHeader
                     onClick={() => handleSort(col.accessor)}
-                    className={`px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-300 cursor-pointer hover:underline ${col.className || ""}`}
+                    className={`px-5 py-3 font-medium max-w-[300px] text-gray-500 text-start text-theme-xs dark:text-gray-300 cursor-pointer hover:underline ${col.className || ""}`}
                   >
                     {col.header}
                     {sortColumn === col.accessor &&
@@ -159,7 +159,7 @@ export default function DataTable<T extends { [key: string]: any }>({
                   {columns.map((col, colIndex) => (
                     <TableCell
                       key={colIndex}
-                      className={`px-5 py-4 text-start dark:text-white/90 ${col.className || ""}`}
+                      className={`px-5 py-4 text-start dark:text-white/90 max-w-[300px] truncate ${col.className || ""}`}
                     >
                       {col.render
                         ? col.render(row[col.accessor], row, rowIndex)

@@ -50,6 +50,9 @@ const BeritaTable: React.FC = () => {
   const handleEdit = (id: number) => {
     navigate(`/berita-tables/edit-berita/${id}`);
   };
+  const handleDetail = (id: number) => {
+    navigate(`/berita-tables/detail-berita/${id}`);
+  };
 
 const columns: ColumnConfig<Berita>[] = [
     {
@@ -91,6 +94,12 @@ const columns: ColumnConfig<Berita>[] = [
             >
               Edit
             </button>
+          <button
+            onClick={() => handleDetail(row.id)}
+            className="px-3 py-1 bg-blue-500 text-white rounded"
+          >
+            Detail
+          </button>
             <button
               onClick={() => handleDelete(row.id)}
               className="px-3 py-1 bg-red-500 text-white rounded"

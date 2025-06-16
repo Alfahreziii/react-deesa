@@ -54,6 +54,9 @@ const handleDelete = async (id: number) => {
   const handleEdit = (id: number) => {
     navigate(`/tahlil-tables/edit-tahlil/${id}`);
   };
+  const handleDetail = (id: number) => {
+    navigate(`/tahlil-tables/detail-tahlil/${id}`);
+  };
 
   const columns: ColumnConfig<Tahlil>[] = [
     {
@@ -94,6 +97,12 @@ const handleDelete = async (id: number) => {
             className="px-3 py-1 bg-blue-500 text-white rounded"
           >
             Edit
+          </button>
+                    <button
+            onClick={() => handleDetail(row.id)}
+            className="px-3 py-1 bg-blue-500 text-white rounded"
+          >
+            Detail
           </button>
           <button
             onClick={() => handleDelete(row.id)}

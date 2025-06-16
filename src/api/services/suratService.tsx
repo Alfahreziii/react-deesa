@@ -10,24 +10,6 @@ export const getSurat = async (): Promise<Surat[]> => {
   }
 };
 
-export const createSurat = async (data: Omit<Surat, "id" | "created_at" | "updated_at">) => {
-  const response = await api.post("/api/surat", data);
-  return response.data;
-};
-
-// Update surat
-export const updateSurat = async (
-  id: number,
-  data: Omit<Surat, "id" | "created_at" | "updated_at">
-) => {
-  try {
-    const response = await api.put(`/api/surat/${id}`, data);
-    return response.data;
-  } catch (error) {
-    throw new Error("Gagal memperbarui data surat");
-  }
-};
-
 // Delete surat
 export const deleteSurat = async (id: number) => {
   try {

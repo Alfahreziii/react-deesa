@@ -21,22 +21,27 @@ import Home from "./pages/Dashboard/Home";
 import BeritaForm from "./pages/Forms/BeritaForm"
 import EditBeritaForm from "./pages/Forms/EditBeritaForm";
 import BeritaTable from "./pages/Tables/BeritaTable";
+import DetailBeritaForm from "./pages/Forms/DetailBeritaForm";
 
 import PengajianForm from "./pages/Forms/PengajianForm";
 import EditPengajianForm from "./pages/Forms/EditPengajianForm";
 import PengajianTable from "./pages/Tables/PengajianTable.tsx";
+import DetailPengajianForm from "./pages/Forms/DetailPengajianForm";
 
 import TahlilForm from "./pages/Forms/TahlilForm.tsx";
 import EditTahlilForm from "./pages/Forms/EditTahlilForm.tsx";
 import TahlilTable from "./pages/Tables/TahlilTable";
+import DetailTahlilForm from "./pages/Forms/DetailTahlilForm";
 
 import KerjabaktiForm from "./pages/Forms/KerjabaktiForm.tsx";
 import EditKerjabaktiForm from "./pages/Forms/EditKerjabaktiForm.tsx";
 import KerjabaktiTable from "./pages/Tables/KerjabaktiTable";
+import DetailKerjabaktiForm from "./pages/Forms/DetailKerjabaktiForm";
 
 import RapatForm from "./pages/Forms/RapatForm";
 import EditRapatForm from "./pages/Forms/EditRapatForm";
 import RapatTable from "./pages/Tables/RapatTable";
+import DetailRapatForm from "./pages/Forms/DetailRapatForm";
 
 import PendudukForm from "./pages/Forms/PendudukForm";
 import EditPendudukForm from "./pages/Forms/EditPendudukForm";
@@ -46,10 +51,18 @@ import PendudukTable from "./pages/Tables/PendudukTable";
 import LaporanTable from "./pages/Tables/LaporanTable";
 import LaporanForm from "./pages/Forms/LaporanForm";
 import EditLaporanForm from "./pages/Forms/EditLaporanForm";
+import DetailLaporanForm from "./pages/Forms/DetailLaporanForm";
+
+import PengurusTable from "./pages/Tables/PengurusTable";
+import PengurusForm from "./pages/Forms/PengurusForm";
+import EditPengurusForm from "./pages/Forms/EditPengurusForm";
+import DetailPengurusForm from "./pages/Forms/DetailPengurusForm";
 
 import SuratTable from "./pages/Tables/SuratTable";
+import DetailSuratForm from "./pages/Forms/DetailSuratForm";
 
 import AduanTable from "./pages/Tables/AduanTable.tsx";
+// import DetailAduanForm from "./pages/Forms/DetailAduanForm";
 
 import GuestRoute from "./routes/GuestRoute";
 import VerifyEmail from "./pages/AuthPages/VerifyEmail";
@@ -75,18 +88,23 @@ export default function App() {
 
               <Route path="/form-pengajian" element={<PengajianForm />} />
               <Route path="/pengajian-tables/edit-pengajian/:id" element={<EditPengajianForm />} />
+              <Route path="/pengajian-tables/detail-pengajian/:id" element={<DetailPengajianForm />} />
 
               <Route path="/form-berita" element={<BeritaForm />} />
               <Route path="/berita-tables/edit-berita/:id" element={<EditBeritaForm />} />
+              <Route path="/berita-tables/detail-berita/:id" element={<DetailBeritaForm />} />
 
               <Route path="/form-kerjabakti" element={<KerjabaktiForm />} />
               <Route path="/kerjabakti-tables/edit-kerjabakti/:id" element={<EditKerjabaktiForm />} />
+              <Route path="/kerjabakti-tables/detail-kerjabakti/:id" element={<DetailKerjabaktiForm />} />
 
               <Route path="/form-tahlil" element={<TahlilForm />} />
               <Route path="/tahlil-tables/edit-tahlil/:id" element={<EditTahlilForm />} />
+              <Route path="/tahlil-tables/detail-tahlil/:id" element={<DetailTahlilForm />} />
 
               <Route path="/form-rapat" element={<RapatForm />} />
               <Route path="/rapat-tables/edit-rapat/:id" element={<EditRapatForm />} />
+              <Route path="/rapat-tables/detail-rapat/:id" element={<DetailRapatForm />} />
 
               <Route path="/form-penduduk" element={<PendudukForm />} />
               <Route path="/penduduk-tables/edit-penduduk/:id" element={<EditPendudukForm />} />
@@ -94,6 +112,13 @@ export default function App() {
 
               <Route path="/form-laporan" element={<LaporanForm />} />
               <Route path="/laporan-tables/edit-laporan/:id" element={<EditLaporanForm />} />
+              <Route path="/laporan-tables/detail-laporan/:id" element={<DetailLaporanForm />} />
+
+              <Route path="/form-pengurus" element={<PengurusForm />} />
+              <Route path="/pengurus-tables/edit-pengurus/:id" element={<EditPengurusForm />} />
+              <Route path="/pengurus-tables/detail-pengurus/:id" element={<DetailPengurusForm />} />
+
+              <Route path="/surat-tables/detail-surat/:id" element={<DetailSuratForm />} />
 
               {/* Tables */}
               <Route path="/berita-tables" element={<BeritaTable />} />
@@ -105,6 +130,7 @@ export default function App() {
               <Route path="/surat-tables" element={<SuratTable />} />
               <Route path="/penduduk-tables" element={<PendudukTable />} />
               <Route path="/laporan-tables" element={<LaporanTable />} />
+              <Route path="/pengurus-tables" element={<PengurusTable />} />
 
               {/* Ui Elements */}
               <Route path="/alerts" element={<Alerts />} />

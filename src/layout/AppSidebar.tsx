@@ -14,6 +14,7 @@ import {
   PaperPlaneIcon,
   UserCircleIcon,
   UserIcon,
+  GroupIcon
 } from "../icons";
 import { useSidebar } from "../context/SidebarContext";
 type NavItem = {
@@ -49,6 +50,11 @@ const navItems: NavItem[] = [
     icon: <UserCircleIcon />,
     name: "Penduduk",
     path: "/penduduk-tables",
+  },
+  {
+    icon: <GroupIcon />,
+    name: "Pengurus",
+    path: "/pengurus-tables",
   },
   {
     icon: <DocsIcon />,

@@ -126,7 +126,7 @@ if (isUpdate && initialData?.id) {
             type="submit"
             className="px-4 py-2 mt-4 text-white bg-blue-600 rounded hover:bg-blue-700"
         >
-            {isUpdate ? "Perbarui Penduduk" : "Simpan Penduduk"}
+            {isUpdate ? "Perbarui Laporan" : "Simpan Laporan"}
         </button>
         )}
 

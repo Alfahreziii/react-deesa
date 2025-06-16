@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import { Surat } from "../../api/types/surat";
 import { 
   getSurat,
@@ -12,6 +13,7 @@ const SuratTable: React.FC = () => {
   const [surat, setSurat] = useState<Surat[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchData();
@@ -45,6 +47,10 @@ const SuratTable: React.FC = () => {
       }
     }
   };
+
+    const handleDetail = (id: number) => {
+    navigate(`/surat-tables/detail-surat/${id}`);
+  };
 const columns: ColumnConfig<Surat>[] = [
   {
     header: "Jenis Surat",
@@ -76,6 +82,12 @@ const columns: ColumnConfig<Surat>[] = [
         accessor: "id",
         render: (_value: any, row: Surat) => (
           <div className="flex gap-2">
+                      <button
+            onClick={() => handleDetail(row.id)}
+            className="px-3 py-1 bg-blue-500 text-white rounded"
+          >
+            Detail
+          </button>
             <button
               onClick={() => handleDelete(row.id)}
               className="px-3 py-1 bg-red-500 text-white rounded"

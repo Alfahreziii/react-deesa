@@ -54,6 +54,9 @@ const handleDelete = async (id: number) => {
   const handleEdit = (id: number) => {
     navigate(`/rapat-tables/edit-rapat/${id}`);
   };
+  const handleDetail = (id: number) => {
+    navigate(`/rapat-tables/edit-rapat/${id}`);
+  };
 
   const columns: ColumnConfig<Rapat>[] = [
     {
@@ -98,6 +101,12 @@ const handleDelete = async (id: number) => {
             className="px-3 py-1 bg-blue-500 text-white rounded"
           >
             Edit
+          </button>
+                    <button
+            onClick={() => handleDetail(row.id)}
+            className="px-3 py-1 bg-blue-500 text-white rounded"
+          >
+            Detail
           </button>
           <button
             onClick={() => handleDelete(row.id)}
