@@ -52,10 +52,10 @@ const formattedData = {
   try {
     if (isUpdate && initialData?.id) {
       const response = await updateRapat(initialData.id, formattedData);
-      setSuccessMessage(response.message || "Kerja Bakti berhasil diperbarui!");
+      setSuccessMessage(response.message || "Rapat berhasil diperbarui!");
     } else {
       const response = await createRapat(formattedData);
-      setSuccessMessage(response.message || "Kerja Bakti berhasil ditambahkan!");
+      setSuccessMessage(response.message || "Rapat berhasil ditambahkan!");
       setFormData({
         hari: "",
         judul: "",
@@ -75,7 +75,7 @@ const formattedData = {
 
 
   return (
-    <ComponentCard title={isUpdate ? "Edit Kerja Bakti" : "Input Kerja Bakti"}>
+    <ComponentCard title={isUpdate ? "Edit Rapat" : "Input Rapat"}>
       {errorMessage && (
         <Alert variant="error" title="Error Message" message={errorMessage} />
       )}

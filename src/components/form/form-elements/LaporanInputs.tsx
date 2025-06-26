@@ -71,7 +71,7 @@ if (isUpdate && initialData?.id) {
 
 
   return (
-    <ComponentCard title={isUpdate ? "Edit Penduduk Bakti" : "Input Penduduk Bakti"}>
+    <ComponentCard title={isUpdate ? "Edit Laporan" : "Input Laporan"}>
       {errorMessage && (
         <Alert variant="error" title="Error Message" message={errorMessage} />
       )}
@@ -120,6 +120,7 @@ if (isUpdate && initialData?.id) {
             />
           </div>
         </div>
+
 
         {!isDetail && (
         <button

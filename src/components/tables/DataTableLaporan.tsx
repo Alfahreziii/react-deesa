@@ -45,6 +45,10 @@ const LaporanTable: React.FC = () => {
       render: (value: string) => value.slice(0, 7), // hanya ambil YYYY-MM
     },
     {
+      header: "Jumlah Penduduk",
+      accessor: "jumlah_penduduk",
+    },
+    {
       header: "Jumlah Rumah",
       accessor: "jumlah_rumah",
     },
