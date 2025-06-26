@@ -21,6 +21,7 @@ export default function RapatFormComponent({ initialData, isUpdate = false, isDe
   const [errorMessage, setErrorMessage] = useState('');
   const [formData, setFormData] = useState({
     hari: initialData?.hari || "",
+    judul: initialData?.judul || "",
     jam_mulai: initialData?.jam_mulai || "",
     jam_selesai: initialData?.jam_selesai || "",
     tempat: initialData?.tempat || "",
@@ -35,7 +36,7 @@ export default function RapatFormComponent({ initialData, isUpdate = false, isDe
 const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
 
-  if (!formData.hari || !formData.jam_mulai || !formData.jam_selesai || !formData.tempat || !formData.peserta || !formData.bahasan) {
+  if (!formData.hari || !formData.judul|| !formData.jam_mulai || !formData.jam_selesai || !formData.tempat || !formData.peserta || !formData.bahasan) {
     setErrorMessage("Harap isi semua field!");
     window.scrollTo({ top: 0, behavior: 'smooth' });
     return;
@@ -57,6 +58,7 @@ const formattedData = {
       setSuccessMessage(response.message || "Kerja Bakti berhasil ditambahkan!");
       setFormData({
         hari: "",
+        judul: "",
         jam_mulai: "",
         jam_selesai: "",
         tempat: "",
@@ -82,6 +84,18 @@ const formattedData = {
       )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
+        <div>
+          <Label htmlFor="judul">Judul</Label>
+          <Input
+            type="text"
+            id="judul"
+            name="judul"
+            disabled={isDetail}
+            value={formData.judul}
+            onChange={handleChange}
+          />
+        </div>
+
         <div>
           <DatePicker
             id="date-picker"

@@ -3,18 +3,17 @@ import { Link, useLocation } from "react-router";
 
 // Assume these icons are imported from an icon library
 import {
-  BoxCubeIcon,
   ChevronDownIcon,
   GridIcon,
   HorizontaLDots,
   PageIcon,
-  PieChartIcon,
   TableIcon,
   DocsIcon,
   PaperPlaneIcon,
   UserCircleIcon,
   UserIcon,
-  GroupIcon
+  GroupIcon,
+  EnvelopeIcon
 } from "../icons";
 import { useSidebar } from "../context/SidebarContext";
 type NavItem = {
@@ -28,7 +27,7 @@ const navItems: NavItem[] = [
   {
     icon: <GridIcon />,
     name: "Dashboard",
-    subItems: [{ name: "Ecommerce", path: "/", pro: false }],
+    subItems: [{ name: "RT.005", path: "/", pro: false }],
   },
   {
     name: "Informasi",
@@ -56,6 +55,18 @@ const navItems: NavItem[] = [
     name: "Pengurus",
     path: "/pengurus-tables",
   },
+
+];
+
+const othersItems: NavItem[] = [
+  {
+    name: "Iuran",
+    icon: <EnvelopeIcon />,
+    subItems: [
+      { name: "Iuran", path: "/iuran-tables", pro: false },
+      { name: "Pembayaran", path: "/pembayaran-tables", pro: false },
+    ],
+  },
   {
     icon: <DocsIcon />,
     name: "Aduan",
@@ -70,29 +81,6 @@ const navItems: NavItem[] = [
     icon: <UserIcon />,
     name: "User Profile",
     path: "/profile",
-  },
-];
-
-const othersItems: NavItem[] = [
-  {
-    icon: <PieChartIcon />,
-    name: "Charts",
-    subItems: [
-      { name: "Line Chart", path: "/line-chart", pro: false },
-      { name: "Bar Chart", path: "/bar-chart", pro: false },
-    ],
-  },
-  {
-    icon: <BoxCubeIcon />,
-    name: "UI Elements",
-    subItems: [
-      { name: "Alerts", path: "/alerts", pro: false },
-      { name: "Avatar", path: "/avatars", pro: false },
-      { name: "Badge", path: "/badge", pro: false },
-      { name: "Buttons", path: "/buttons", pro: false },
-      { name: "Images", path: "/images", pro: false },
-      { name: "Videos", path: "/videos", pro: false },
-    ],
   },
 ];
 

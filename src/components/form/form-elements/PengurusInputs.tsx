@@ -1,9 +1,11 @@
 import { useState,useEffect } from "react";
 import ComponentCard from "../../common/ComponentCard";
 import Label from "../Label";
+import Select from "react-select";
 import Alert from "../../ui/alert/Alert";
 import Input from "../input/InputField";
 import { createPengurus, updatePengurus } from "../../../api/services/pengurusService";
+import { getJabatan } from "../../../api/services/jabatanService";
 import DropzoneComponent from "./DropZone";
 
 interface Props {
@@ -14,6 +16,7 @@ interface Props {
 
 export default function PengurusFormComponent({ initialData, isUpdate = false, isDetail = false }: Props) {
   const [successMessage, setSuccessMessage] = useState('');
+  const [jabatan, setJabatan] = useState<any[]>([]);
   const [errorMessage, setErrorMessage] = useState('');
   const [fotoFile, setFotoFile] = useState<File | null>(null);
   const [fotoPreviewUrl, setFotoPreviewUrl] = useState<string | null>(null);
@@ -21,10 +24,30 @@ export default function PengurusFormComponent({ initialData, isUpdate = false, i
     nama: initialData?.nama || "",
     email: initialData?.email || "",
     alamat: initialData?.alamat || "",
-    jabatan: initialData?.jabatan || "",
+    jabatan: initialData?.jabatan || null,
     no_hp: initialData?.no_hp || "",
     foto: initialData?.foto || "",
     });
+
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const jabatanData = await getJabatan();
+          setJabatan(jabatanData);
+        } catch (err) {
+          setErrorMessage("Gagal memuat data user/iuran");
+        }
+      };
+
+      fetchData();
+    }, []);
+
+    const handleSelectChange = (selected: any, name: string) => {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: selected?.value ? Number(selected.value) : 0,
+      }));
+    };
 
     useEffect(() => {
     if (isUpdate && initialData?.foto && !fotoFile && !fotoPreviewUrl) {
@@ -59,7 +82,7 @@ const handleSubmit = async (e: React.FormEvent) => {
     const data = new FormData();
     data.append("nama", formData.nama);
     data.append("email", formData.email);
-    data.append("jabatan", formData.jabatan);
+    data.append("jabatan", String(formData.jabatan));
     data.append("alamat", formData.alamat);
     data.append("no_hp", formData.no_hp);
 
@@ -127,14 +150,23 @@ const handleSubmit = async (e: React.FormEvent) => {
           />
         </div>
         <div>
-          <Label htmlFor="jabatan">jabatan</Label>
-          <Input
-            type="text"
-            id="jabatan"
-            name="jabatan"
-            disabled={isDetail}
-            value={formData.jabatan}
-            onChange={handleChange}
+          <Label htmlFor="jabatan">Jabatan</Label>
+          <Select
+            inputId="jabatan"
+            options={jabatan.map((item) => ({
+              value: item.id,
+              label: `${item.nama_jabatan}`,
+            }))}
+            value={jabatan
+              .map((item) => ({
+                value: item.id,
+                label: `${item.nama_jabatan}`,
+              }))
+              .find((opt) => opt.value === Number(formData.jabatan))}
+            onChange={(selected) => handleSelectChange(selected, "jabatan")}
+            placeholder="Pilih Jabatan..."
+            isClearable
+            isDisabled={isDetail}
           />
         </div>
         <div>
@@ -159,45 +191,35 @@ const handleSubmit = async (e: React.FormEvent) => {
             onChange={handleChange}
           />
         </div>
-
-            {fotoPreviewUrl && (
-            <img
-                src={fotoPreviewUrl.startsWith("blob:")
+        {(fotoPreviewUrl || initialData?.foto) && (
+          <img
+            src={
+              fotoPreviewUrl?.startsWith("blob:")
                 ? fotoPreviewUrl
-                : `${import.meta.env.VITE_API_URL}/file/${fotoPreviewUrl}`}
-                alt="Preview"
-                className="w-40 h-auto mt-2 rounded"
+                : `${import.meta.env.VITE_API_URL}/file/${fotoPreviewUrl || initialData?.foto}`
+            }
+            alt="Preview"
+            className="w-40 h-auto mt-2 rounded"
+          />
+        )}
+
+        {!isDetail && (
+          <div>
+            <DropzoneComponent 
+              onFilesUploaded={(files) => {
+                const file = files[0];
+                setFotoFile(file);
+
+                if (fotoPreviewUrl) {
+                  URL.revokeObjectURL(fotoPreviewUrl);
+                }
+
+                const previewUrl = URL.createObjectURL(file);
+                setFotoPreviewUrl(previewUrl);
+              }}
             />
-            )}
-{(fotoPreviewUrl || initialData?.foto) && (
-  <img
-    src={
-      fotoPreviewUrl?.startsWith("blob:")
-        ? fotoPreviewUrl
-        : `${import.meta.env.VITE_API_URL}/file/${fotoPreviewUrl || initialData?.foto}`
-    }
-    alt="Preview"
-    className="w-40 h-auto mt-2 rounded"
-  />
-)}
-
-{!isDetail && (
-  <div>
-    <DropzoneComponent 
-      onFilesUploaded={(files) => {
-        const file = files[0];
-        setFotoFile(file);
-
-        if (fotoPreviewUrl) {
-          URL.revokeObjectURL(fotoPreviewUrl);
-        }
-
-        const previewUrl = URL.createObjectURL(file);
-        setFotoPreviewUrl(previewUrl);
-      }}
-    />
-  </div>
-)}
+          </div>
+        )}
 
         {!isDetail && (
         <button

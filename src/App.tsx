@@ -64,6 +64,16 @@ import DetailSuratForm from "./pages/Forms/DetailSuratForm";
 import AduanTable from "./pages/Tables/AduanTable.tsx";
 // import DetailAduanForm from "./pages/Forms/DetailAduanForm";
 
+import IuranPage from "./pages/Payment/IuranPage.tsx";
+import IuranTable from "./pages/Tables/IuranTable.tsx";
+import IuranForm from "./pages/Forms/IuranForm";
+import EditIuranForm from "./pages/Forms/EditIuranForm";
+import DetailIuranForm from "./pages/Forms/DetailIuranForm";
+
+import PembayaranTable from "./pages/Tables/PembayaranTable.tsx";
+import PembayaranForm from "./pages/Forms/PembayaranForm.tsx";
+import DetailPembayaranForm from "./pages/Forms/DetailPembayaranForm.tsx";
+
 import GuestRoute from "./routes/GuestRoute";
 import VerifyEmail from "./pages/AuthPages/VerifyEmail";
 import ProtectedRoute from "./routes/ProtectedRoute";
@@ -82,6 +92,9 @@ export default function App() {
               {/* Others Page */}
               <Route path="/profile" element={<UserProfiles />} />
               <Route path="/blank" element={<Blank />} />
+
+              {/* Payment Page */}
+              <Route path="/iuran" element={<IuranPage />} />
 
               {/* Forms */}
               <Route path="/form-elements" element={<FormElements />} />
@@ -118,6 +131,13 @@ export default function App() {
               <Route path="/pengurus-tables/edit-pengurus/:id" element={<EditPengurusForm />} />
               <Route path="/pengurus-tables/detail-pengurus/:id" element={<DetailPengurusForm />} />
 
+              <Route path="/form-iuran" element={<IuranForm />} />
+              <Route path="/iuran-tables/edit-iuran/:id" element={<EditIuranForm />} />
+              <Route path="/iuran-tables/detail-iuran/:id" element={<DetailIuranForm />} />
+
+              <Route path="/form-pembayaran" element={<PembayaranForm />} />
+              <Route path="/pembayaran-tables/detail-pembayaran/:id" element={<DetailPembayaranForm />} />
+
               <Route path="/surat-tables/detail-surat/:id" element={<DetailSuratForm />} />
 
               {/* Tables */}
@@ -131,6 +151,8 @@ export default function App() {
               <Route path="/penduduk-tables" element={<PendudukTable />} />
               <Route path="/laporan-tables" element={<LaporanTable />} />
               <Route path="/pengurus-tables" element={<PengurusTable />} />
+              <Route path="/iuran-tables" element={<IuranTable />} />
+              <Route path="/pembayaran-tables" element={<PembayaranTable />} />
 
               {/* Ui Elements */}
               <Route path="/alerts" element={<Alerts />} />

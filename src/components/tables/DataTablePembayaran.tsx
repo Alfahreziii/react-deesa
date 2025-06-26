@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
-import ComponentCard from "../../components/common/ComponentCard";
-import PageMeta from "../../components/common/PageMeta";
 import { Pembayaran } from "../../api/types/pembayaran";
 import {
   getPembayaran,
   deletePembayaran
 } from "../../api/services/iuranService";
-import DataTable from "../tables/ReusableTables/BasicTableOne";
-import { ColumnConfig } from "../tables/ReusableTables/BasicTableOne";
+import DataTable from "./ReusableTables/BasicTableOne";
+import { ColumnConfig } from "./ReusableTables/BasicTableOne";
 import { useNavigate } from "react-router";
 import { showAlert, showConfirmAlert } from "../ui/alert/AlertPopup"; // path sesuaikan dengan strukturmu
 
@@ -109,22 +107,11 @@ const PembayaranTable: React.FC = () => {
 
   return (
     <div>
-      <PageMeta
-        title="Concept"
-        description="Concept"
+      <DataTable<Pembayaran>
+        data={pembayaran}
+        columns={columns}
+        createLink="/form-pembayaran"
       />
-      <div className="grid grid-cols-1">
-        <div className="space-y-6">
-          <ComponentCard title="Pembayaran Iuran">
-            <div>
-                <DataTable<Pembayaran>
-                  data={pembayaran}
-                  columns={columns}
-                />
-            </div>
-          </ComponentCard>
-        </div>
-      </div>
     </div>
   );
 };

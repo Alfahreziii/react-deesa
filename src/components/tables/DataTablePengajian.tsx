@@ -60,6 +60,10 @@ const handleDelete = async (id: number) => {
 
   const columns: ColumnConfig<Pengajian>[] = [
     {
+      header: "Judul",
+      accessor: "judul",
+    },
+    {
       header: "Hari",
       accessor: "hari",
       render: (value: string) => formatHari(value),

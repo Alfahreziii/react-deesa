@@ -20,6 +20,7 @@ export default function PengajianFormComponent({ initialData, isUpdate = false, 
   const [errorMessage, setErrorMessage] = useState('');
   const [formData, setFormData] = useState({
     hari: initialData?.hari || "",
+    judul: initialData?.judul || "",
     jam_mulai: initialData?.jam_mulai || "",
     jam_selesai: initialData?.jam_selesai || "",
     tempat: initialData?.tempat || "",
@@ -55,6 +56,7 @@ const formattedData = {
       setSuccessMessage(response.message || "Pengajian berhasil ditambahkan!");
       setFormData({
         hari: "",
+        judul: "",
         jam_mulai: "",
         jam_selesai: "",
         tempat: "",
@@ -79,6 +81,17 @@ const formattedData = {
       )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
+        <div>
+          <Label htmlFor="judul">Judul</Label>
+          <Input
+            type="text"
+            id="judul"
+            name="judul"
+            disabled={isDetail}
+            value={formData.judul}
+            onChange={handleChange}
+          />
+        </div>
         <div>
           <DatePicker
             id="date-picker"

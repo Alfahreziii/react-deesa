@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { Rapat } from "../../api/types/rapat";
+import { Iuran } from "../../api/types/iuran";
 import {
-  getRapat,
-  deleteRapat,
-} from "../../api/services/rapatService";
+  getIuran,
+  deleteIuran,
+} from "../../api/services/iuranService";
 import DataTable from "./ReusableTables/BasicTableOne";
 import { ColumnConfig } from "./ReusableTables/BasicTableOne";
-import { formatHari } from "../../utils/dateFormatter";
 import { useNavigate } from "react-router";
 import { showAlert, showConfirmAlert } from "../ui/alert/AlertPopup"; // path sesuaikan dengan strukturmu
 
 
-const RapatTable: React.FC = () => {
-  const [rapat, setRapat] = useState<Rapat[]>([]);
+const IuranTable: React.FC = () => {
+  const [iuran, setIuran] = useState<Iuran[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,14 +25,15 @@ const RapatTable: React.FC = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const data = await getRapat();
-      setRapat(data);
+      const data = await getIuran();
+      setIuran(data);
     } catch (err) {
       setError((err as Error).message);
     } finally {
       setLoading(false);
     }
   };
+
 
 const handleDelete = async (id: number) => {
   const confirmed = await showConfirmAlert(
@@ -41,7 +43,7 @@ const handleDelete = async (id: number) => {
 
   if (confirmed) {
     try {
-      await deleteRapat(id);
+      await deleteIuran(id);
       showAlert("Berhasil", "Data berhasil dihapus", "success");
       fetchData(); // refresh data setelah delete
     } catch (error) {
@@ -52,39 +54,34 @@ const handleDelete = async (id: number) => {
 
 
   const handleEdit = (id: number) => {
-    navigate(`/rapat-tables/edit-rapat/${id}`);
+    navigate(`/iuran-tables/edit-iuran/${id}`);
   };
   const handleDetail = (id: number) => {
-    navigate(`/rapat-tables/edit-rapat/${id}`);
+    navigate(`/iuran-tables/detail-iuran/${id}`);
   };
 
-  const columns: ColumnConfig<Rapat>[] = [
+  const columns: ColumnConfig<Iuran>[] = [
     {
-      header: "Judul",
-      accessor: "judul",
+      header: "Bulan",
+      accessor: "bulan",
+      render: (value: string) => value.slice(0, 7), 
     },
     {
-      header: "Hari",
-      accessor: "hari",
-      render: (value: string) => formatHari(value),
+    header: "Harga",
+    accessor: "harga",
+    render: (value: number) =>
+        value.toLocaleString("id-ID", {
+        style: "currency",
+        currency: "IDR",
+        }),
     },
     {
-      header: "Jam",
-      accessor: "jam_mulai",
-      render: (_value: string, row: Rapat) =>
-        `${row.jam_mulai} - ${row.jam_selesai}`,
-    },
-    {
-      header: "Tempat",
-      accessor: "tempat",
-    },
-    {
-      header: "Peserta",
-      accessor: "peserta",
-    },
-    {
-      header: "Bahasan",
-      accessor: "bahasan",
+    header: "Jatuh Tempo",
+    accessor: "jatuh_tempo",
+    render: (value: string) =>
+        new Date(value).toLocaleDateString("id-ID", {
+        dateStyle: "long",
+        }),
     },
     {
       header: "Dibuat Pada",
@@ -98,7 +95,7 @@ const handleDelete = async (id: number) => {
     {
       header: "Aksi",
       accessor: "id",
-      render: (_value: any, row: Rapat) => (
+      render: (_value: any, row: Iuran) => (
         <div className="flex gap-2">
           <button
             onClick={() => handleEdit(row.id)}
@@ -128,13 +125,13 @@ const handleDelete = async (id: number) => {
 
   return (
     <div>
-      <DataTable<Rapat>
-        data={rapat}
+      <DataTable<Iuran>
+        data={iuran}
         columns={columns}
-        createLink="/form-rapat"
+        createLink="/form-iuran"
       />
     </div>
   );
 };
 
-export default RapatTable;
+export default IuranTable;
