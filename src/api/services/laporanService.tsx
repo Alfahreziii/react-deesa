@@ -25,9 +25,10 @@ export const updateLaporan = async (
   try {
     const response = await api.put(`/api/laporanmanual/${id}`, data);
     return response.data;
-  } catch (error) {
-    throw new Error("Gagal memperbarui data laporan");
-  }
+  } catch (error: any) {
+  const errMsg = error.response?.data?.message || "Terjadi kesalahan";
+  throw new Error(errMsg);
+}
 };
 
 // Delete laporan
@@ -35,9 +36,10 @@ export const deleteLaporan = async (id: number) => {
   try {
     const response = await api.delete(`/api/laporanmanual/${id}`);
     return response.data;
-  } catch (error) {
-    throw new Error("Gagal menghapus data laporan");
-  }
+  } catch (error: any) {
+  const errMsg = error.response?.data?.message || "Terjadi kesalahan";
+  throw new Error(errMsg);
+}
 };
 
 export const getLaporanById = async (id: number): Promise<Laporan | undefined> => {
@@ -51,7 +53,8 @@ export const getLaporanById = async (id: number): Promise<Laporan | undefined> =
     }
 
     return found;
-  } catch (error) {
-    throw new Error("Gagal mengambil data Laporan berdasarkan ID");
-  }
+  } catch (error: any) {
+  const errMsg = error.response?.data?.message || "Terjadi kesalahan";
+  throw new Error(errMsg);
+}
 };

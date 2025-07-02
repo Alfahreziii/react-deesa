@@ -9,9 +9,10 @@ export const fetchUsers = async (): Promise<User[]> => {
   try {
     const response = await api.get('/api/users');
     return response.data.data;
-  } catch (error) {
-    throw new Error('Gagal mengambil data users');
-  }
+  } catch (error: any) {
+  const errMsg = error.response?.data?.message || "Terjadi kesalahan";
+  throw new Error(errMsg);
+}
 };
 
 // export const fetchUsers = async (token: string) => {

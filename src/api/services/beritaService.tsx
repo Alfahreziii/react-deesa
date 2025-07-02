@@ -5,20 +5,26 @@ export const getBerita = async (): Promise<Berita[]> => {
   try {
     const response = await api.get('/api/berita');
     return response.data.data;
-  } catch (error) {
-    throw new Error('Gagal mengambil data berita');
+  } catch (error: any) {
+    const errMsg = error.response?.data?.message || "Terjadi kesalahan";
+    throw new Error(errMsg);
   }
+
 };
 
 // createBerita menerima FormData
 export const createBerita = async (data: FormData) => {
-  const response = await api.post("/api/berita", data, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
-  return response.data;
+  try {
+    const response = await api.post("/api/berita", data, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+    return response.data;
+  } catch (error: any) {
+    const errMsg = error.response?.data?.message || "Gagal membuat berita";
+    throw new Error(errMsg);
+  }
 };
+
 
 // updateBerita juga menerima FormData
 export const updateBerita = async (id: number, data: FormData) => {
@@ -29,9 +35,11 @@ export const updateBerita = async (id: number, data: FormData) => {
       },
     });
     return response.data;
-  } catch (error) {
-    throw new Error("Gagal memperbarui data Pengajian");
-  }
+  } catch (error: any) {
+  const errMsg = error.response?.data?.message || "Terjadi kesalahan";
+  throw new Error(errMsg);
+}
+
 };
 
 
@@ -40,9 +48,11 @@ export const deleteBerita = async (id: number) => {
   try {
     const response = await api.delete(`/api/berita/${id}`);
     return response.data;
-  } catch (error) {
-    throw new Error("Gagal menghapus data Pengajian");
-  }
+  } catch (error: any) {
+  const errMsg = error.response?.data?.message || "Terjadi kesalahan";
+  throw new Error(errMsg);
+}
+
 };
 
 export const getBeritaById = async (id: number): Promise<Berita | undefined> => {
@@ -56,8 +66,10 @@ export const getBeritaById = async (id: number): Promise<Berita | undefined> => 
     }
 
     return found;
-  } catch (error) {
-    throw new Error("Gagal mengambil data Pengajian berdasarkan ID");
-  }
+  } catch (error: any) {
+  const errMsg = error.response?.data?.message || "Terjadi kesalahan";
+  throw new Error(errMsg);
+}
+
 };
 

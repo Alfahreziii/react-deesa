@@ -5,14 +5,20 @@ export const getKerjabakti = async (): Promise<Kerjabakti[]> => {
   try {
     const response = await api.get('/api/kerjabakti');
     return response.data.data;
-  } catch (error) {
-    throw new Error('Gagal mengambil data Kerja Bakti');
-  }
+  } catch (error: any) {
+  const errMsg = error.response?.data?.message || "Terjadi kesalahan";
+  throw new Error(errMsg);
+}
 };
 
 export const createKerjabakti = async (data: Omit<Kerjabakti, "id" | "created_at" | "updated_at">) => {
-  const response = await api.post("/api/kerjabakti", data);
-  return response.data;
+  try{
+    const response = await api.post("/api/kerjabakti", data);
+    return response.data;
+  } catch (error: any) {
+  const errMsg = error.response?.data?.message || "Terjadi kesalahan";
+  throw new Error(errMsg);
+}
 };
 
 // Update kerja bakti
@@ -23,9 +29,10 @@ export const updateKerjabakti = async (
   try {
     const response = await api.put(`/api/kerjabakti/${id}`, data);
     return response.data;
-  } catch (error) {
-    throw new Error("Gagal memperbarui data Kerja Bakti");
-  }
+  } catch (error: any) {
+  const errMsg = error.response?.data?.message || "Terjadi kesalahan";
+  throw new Error(errMsg);
+}
 };
 
 // Delete kerja bakti
@@ -33,9 +40,10 @@ export const deleteKerjabakti = async (id: number) => {
   try {
     const response = await api.delete(`/api/kerjabakti/${id}`);
     return response.data;
-  } catch (error) {
-    throw new Error("Gagal menghapus data Kerja Bakti");
-  }
+  } catch (error: any) {
+  const errMsg = error.response?.data?.message || "Terjadi kesalahan";
+  throw new Error(errMsg);
+}
 };
 
 export const getKerjabaktiById = async (id: number): Promise<Kerjabakti | undefined> => {
@@ -49,7 +57,8 @@ export const getKerjabaktiById = async (id: number): Promise<Kerjabakti | undefi
     }
 
     return found;
-  } catch (error) {
-    throw new Error("Gagal mengambil data Kerja Bakti berdasarkan ID");
-  }
+  } catch (error: any) {
+  const errMsg = error.response?.data?.message || "Terjadi kesalahan";
+  throw new Error(errMsg);
+}
 };

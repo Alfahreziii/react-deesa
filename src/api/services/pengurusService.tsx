@@ -5,19 +5,25 @@ export const getPengurus = async (): Promise<Pengurus[]> => {
   try {
     const response = await api.get('/api/pengurus');
     return response.data.data;
-  } catch (error) {
-    throw new Error('Gagal mengambil data pengurus');
-  }
+  } catch (error: any) {
+  const errMsg = error.response?.data?.message || "Terjadi kesalahan";
+  throw new Error(errMsg);
+}
 };
 
 // pengurus menerima FormData
 export const createPengurus = async (data: FormData) => {
-  const response = await api.post("/api/pengurus", data, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
-  return response.data;
+  try{
+    const response = await api.post("/api/pengurus", data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  } catch (error: any) {
+  const errMsg = error.response?.data?.message || "Terjadi kesalahan";
+  throw new Error(errMsg);
+}
 };
 
 // pengurus juga menerima FormData
@@ -29,9 +35,10 @@ export const updatePengurus = async (id: number, data: FormData) => {
       },
     });
     return response.data;
-  } catch (error) {
-    throw new Error("Gagal memperbarui data Pengajian");
-  }
+  } catch (error: any) {
+  const errMsg = error.response?.data?.message || "Terjadi kesalahan";
+  throw new Error(errMsg);
+}
 };
 
 
@@ -40,9 +47,10 @@ export const deletePengurus = async (id: number) => {
   try {
     const response = await api.delete(`/api/pengurus/${id}`);
     return response.data;
-  } catch (error) {
-    throw new Error("Gagal menghapus data Pengajian");
-  }
+  } catch (error: any) {
+  const errMsg = error.response?.data?.message || "Terjadi kesalahan";
+  throw new Error(errMsg);
+}
 };
 
 export const getPengurusById = async (id: number): Promise<Pengurus | undefined> => {
@@ -56,8 +64,9 @@ export const getPengurusById = async (id: number): Promise<Pengurus | undefined>
     }
 
     return found;
-  } catch (error) {
-    throw new Error("Gagal mengambil data Pengajian berdasarkan ID");
-  }
+  } catch (error: any) {
+  const errMsg = error.response?.data?.message || "Terjadi kesalahan";
+  throw new Error(errMsg);
+}
 };
 

@@ -6,9 +6,10 @@ export const getPembayaran = async (): Promise<Pembayaran[]> => {
   try {
     const response = await api.get('/api/pembayaran');
     return response.data.data;
-  } catch (error) {
-    throw new Error('Gagal mengambil data pembayaran');
-  }
+  } catch (error: any) {
+  const errMsg = error.response?.data?.message || "Terjadi kesalahan";
+  throw new Error(errMsg);
+}
 };
 
 export const getPembayaranById = async (id: number): Promise<Pembayaran | undefined> => {
@@ -22,14 +23,20 @@ export const getPembayaranById = async (id: number): Promise<Pembayaran | undefi
     }
 
     return found;
-  } catch (error) {
-    throw new Error("Gagal mengambil data Pembayaran berdasarkan ID");
-  }
+  } catch (error: any) {
+  const errMsg = error.response?.data?.message || "Terjadi kesalahan";
+  throw new Error(errMsg);
+}
 };
 
 export const createPembayaran = async (data: Omit<Pembayaran, "id" | "created_at" | "updated_at" | "order_id" | "nama_user" | "email_user" | "bulan_iuran" | "harga_iuran">) => {
-  const response = await api.post("/api/pembayaran", data);
-  return response.data;
+  try{
+    const response = await api.post("/api/pembayaran", data);
+    return response.data;
+  } catch (error: any) {
+  const errMsg = error.response?.data?.message || "Terjadi kesalahan";
+  throw new Error(errMsg);
+}
 };
 
 // Delete pembayaran
@@ -37,18 +44,20 @@ export const deletePembayaran = async (id: number) => {
   try {
     const response = await api.delete(`/api/pembayaran/${id}`);
     return response.data;
-  } catch (error) {
-    throw new Error("Gagal menghapus data pembayaran");
-  }
+  } catch (error: any) {
+  const errMsg = error.response?.data?.message || "Terjadi kesalahan";
+  throw new Error(errMsg);
+}
 };
 
 export const getIuran = async (): Promise<Iuran[]> => {
   try {
     const response = await api.get('/api/iuran');
     return response.data.data;
-  } catch (error) {
-    throw new Error('Gagal mengambil data iuran');
-  }
+  } catch (error: any) {
+  const errMsg = error.response?.data?.message || "Terjadi kesalahan";
+  throw new Error(errMsg);
+}
 };
 
 
@@ -65,9 +74,10 @@ export const updateIuran = async (
   try {
     const response = await api.put(`/api/iuran/${id}`, data);
     return response.data;
-  } catch (error) {
-    throw new Error("Gagal memperbarui data iuran");
-  }
+  } catch (error: any) {
+  const errMsg = error.response?.data?.message || "Terjadi kesalahan";
+  throw new Error(errMsg);
+}
 };
 
 // Delete iuran
@@ -75,9 +85,10 @@ export const deleteIuran = async (id: number) => {
   try {
     const response = await api.delete(`/api/iuran/${id}`);
     return response.data;
-  } catch (error) {
-    throw new Error("Gagal menghapus data iuran");
-  }
+  } catch (error: any) {
+  const errMsg = error.response?.data?.message || "Terjadi kesalahan";
+  throw new Error(errMsg);
+}
 };
 
 export const getIuranById = async (id: number): Promise<Iuran | undefined> => {
@@ -91,7 +102,8 @@ export const getIuranById = async (id: number): Promise<Iuran | undefined> => {
     }
 
     return found;
-  } catch (error) {
-    throw new Error("Gagal mengambil data Iuran berdasarkan ID");
-  }
+  } catch (error: any) {
+  const errMsg = error.response?.data?.message || "Terjadi kesalahan";
+  throw new Error(errMsg);
+}
 };

@@ -5,9 +5,10 @@ export const getSurat = async (): Promise<Surat[]> => {
   try {
     const response = await api.get('/api/surat');
     return response.data.data;
-  } catch (error) {
-    throw new Error('Gagal mengambil data Surat');
-  }
+  } catch (error: any) {
+  const errMsg = error.response?.data?.message || "Terjadi kesalahan";
+  throw new Error(errMsg);
+}
 };
 
 // Delete surat
@@ -15,9 +16,10 @@ export const deleteSurat = async (id: number) => {
   try {
     const response = await api.delete(`/api/surat/${id}`);
     return response.data;
-  } catch (error) {
-    throw new Error("Gagal menghapus data surat");
-  }
+  } catch (error: any) {
+  const errMsg = error.response?.data?.message || "Terjadi kesalahan";
+  throw new Error(errMsg);
+}
 };
 
 export const getSuratById = async (id: number): Promise<Surat | undefined> => {
@@ -31,7 +33,8 @@ export const getSuratById = async (id: number): Promise<Surat | undefined> => {
     }
 
     return found;
-  } catch (error) {
-    throw new Error("Gagal mengambil data surat berdasarkan ID");
-  }
+  } catch (error: any) {
+  const errMsg = error.response?.data?.message || "Terjadi kesalahan";
+  throw new Error(errMsg);
+}
 };

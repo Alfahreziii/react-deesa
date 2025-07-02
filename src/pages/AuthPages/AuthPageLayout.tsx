@@ -17,6 +17,7 @@ export default function AuthLayout({
             {/* <!-- ===== Common Grid Shape Start ===== --> */}
             <GridShape />
             <div className="flex flex-col items-center max-w-xs">
+              <div className="rounded-full bg-[#F7F7F7] px-10 py-20">
               <Link to="/" className="block mb-4">
                 <img
                   width={231}
@@ -25,9 +26,7 @@ export default function AuthLayout({
                   alt="Logo"
                 />
               </Link>
-              <p className="text-center text-gray-400 dark:text-white/60">
-                Concept
-              </p>
+              </div>
             </div>
           </div>
         </div>

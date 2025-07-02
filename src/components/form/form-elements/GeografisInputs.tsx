@@ -1,10 +1,9 @@
 import { useState,useEffect } from "react";
 import ComponentCard from "../../common/ComponentCard";
 import Label from "../Label";
-import TextArea from "../input/TextArea";
 import Alert from "../../ui/alert/Alert";
 import Input from "../input/InputField";
-import { createBerita, updateBerita } from "../../../api/services/beritaService";
+import { createGeografis, updateGeografis } from "../../../api/services/geografisService";
 import DropzoneComponent from "./DropZone";
 
 interface Props {
@@ -13,22 +12,15 @@ interface Props {
   isDetail?: boolean;
 }
 
-export default function BeritaFormComponent({ initialData, isUpdate = false, isDetail = false }: Props) {
+export default function GeografisFormComponent({ initialData, isUpdate = false, isDetail = false }: Props) {
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const [message, setMessage] = useState("");
   const [fotoFile, setFotoFile] = useState<File | null>(null);
   const [fotoPreviewUrl, setFotoPreviewUrl] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     judul: initialData?.judul || "",
-    deskripsi: initialData?.deskripsi || "",
     foto: initialData?.foto || "",
   });
-    useEffect(() => {
-    if (initialData?.deskripsi) {
-        setMessage(initialData.deskripsi);
-    }
-    }, [initialData]);
 
     useEffect(() => {
     if (isUpdate && initialData?.foto && !fotoFile && !fotoPreviewUrl) {
@@ -52,7 +44,7 @@ export default function BeritaFormComponent({ initialData, isUpdate = false, isD
 const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
 
-    if (!formData.judul || !message || (!isUpdate && !fotoFile)) {
+    if (!formData.judul || (!isUpdate && !fotoFile)) {
     setErrorMessage("Harap isi semua field!");
     setSuccessMessage("");
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -62,22 +54,20 @@ const handleSubmit = async (e: React.FormEvent) => {
 
     const data = new FormData();
     data.append("judul", formData.judul);
-    data.append("deskripsi", message);
     if (fotoFile) {
         data.append("foto", fotoFile);
     }
 
   try {
     if (isUpdate && initialData?.id) {
-      const response = await updateBerita(initialData.id, data);
-      setSuccessMessage(response.message || "berita berhasil diperbarui!");
+      const response = await updateGeografis(initialData.id, data);
+      setSuccessMessage(response.message || "Geografis berhasil diperbarui!");
     } else {
-      const response = await createBerita(data);
-      setSuccessMessage(response.message || "berita berhasil ditambahkan!");
+      const response = await createGeografis(data);
+      setSuccessMessage(response.message || "Geografis berhasil ditambahkan!");
 
       // Reset form
-      setFormData({ judul: "", deskripsi: "", foto: "" });
-      setMessage("");
+      setFormData({ judul: "", foto: "" });
       setFotoFile(null);
 
       if (fotoPreviewUrl) {
@@ -96,7 +86,7 @@ const handleSubmit = async (e: React.FormEvent) => {
 };
 
   return (
-    <ComponentCard title={isUpdate ? "Edit Berita" : "Input Berita"}>
+    <ComponentCard title={isUpdate ? "Edit Geografis" : "Input Geografis"}>
       {errorMessage && (
         <Alert variant="error" title="Error Message" message={errorMessage} />
       )}
@@ -116,54 +106,41 @@ const handleSubmit = async (e: React.FormEvent) => {
             onChange={handleChange}
           />
         </div>
+        {(fotoPreviewUrl || initialData?.foto) && (
+        <img
+            src={
+            fotoPreviewUrl?.startsWith("blob:")
+                ? fotoPreviewUrl
+                : `${import.meta.env.VITE_API_URL}/file/${fotoPreviewUrl || initialData?.foto}`
+            }
+            alt="Preview"
+            className="w-40 h-auto mt-2 rounded"
+        />
+        )}
 
-        {/* Default TextArea */}
+        {!isDetail && (
         <div>
-          <Label>Deskripsi</Label>
-          <TextArea
-            value={message}
-            disabled={isDetail}
-            onChange={(value) => setMessage(value)}
-            rows={6}
-          />
+            <DropzoneComponent 
+            onFilesUploaded={(files) => {
+                const file = files[0];
+                setFotoFile(file);
+
+                if (fotoPreviewUrl) {
+                URL.revokeObjectURL(fotoPreviewUrl);
+                }
+
+                const previewUrl = URL.createObjectURL(file);
+                setFotoPreviewUrl(previewUrl);
+            }}
+            />
         </div>
-{(fotoPreviewUrl || initialData?.foto) && (
-  <img
-    src={
-      fotoPreviewUrl?.startsWith("blob:")
-        ? fotoPreviewUrl
-        : `${import.meta.env.VITE_API_URL}/file/${fotoPreviewUrl || initialData?.foto}`
-    }
-    alt="Preview"
-    className="w-40 h-auto mt-2 rounded"
-  />
-)}
-
-{!isDetail && (
-  <div>
-    <DropzoneComponent 
-      onFilesUploaded={(files) => {
-        const file = files[0];
-        setFotoFile(file);
-
-        if (fotoPreviewUrl) {
-          URL.revokeObjectURL(fotoPreviewUrl);
-        }
-
-        const previewUrl = URL.createObjectURL(file);
-        setFotoPreviewUrl(previewUrl);
-      }}
-    />
-  </div>
-)}
-
-
+        )}
         {!isDetail && (
         <button
             type="submit"
             className="px-4 py-2 mt-4 text-white bg-blue-600 rounded hover:bg-blue-700"
         >
-            {isUpdate ? "Perbarui Berita" : "Simpan Berita"}
+            {isUpdate ? "Perbarui Geografis" : "Simpan Geografis"}
         </button>
         )}
       </form>

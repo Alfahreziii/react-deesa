@@ -1,12 +1,11 @@
-import { createContext, useContext, useEffect, useState, ReactNode } from "react";
-import axios from "../api/lib/axios";
+import { createContext, useContext, ReactNode, useEffect, useState } from "react";
+import { jwtDecode } from "jwt-decode";
 
 interface User {
   id: number;
   name: string;
   email: string;
-  email_verified_at: string | null;
-  // Tambahkan field lain jika perlu
+  role: string;
 }
 
 interface AuthContextType {
@@ -25,20 +24,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const fetchUser = async () => {
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      setUser(null);
+      setLoading(false);
+      return;
+    }
+
     try {
-      await axios.get("/sanctum/csrf-cookie");
-      const res = await axios.get("/api/user");
-      setUser(res.data);
-    } catch {
+      const decoded = jwtDecode<User>(token);
+      setUser(decoded);
+    } catch (error) {
+      console.error("Token tidak valid:", error);
       setUser(null);
     } finally {
       setLoading(false);
     }
-  };
-
-  useEffect(() => {
-    fetchUser();
   }, []);
 
   return (

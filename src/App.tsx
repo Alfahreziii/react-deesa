@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router";
+import { Navigate } from "react-router";
 import SignIn from "./pages/AuthPages/SignIn";
 import SignUp from "./pages/AuthPages/SignUp";
 import NotFound from "./pages/OtherPage/NotFound";
@@ -22,6 +23,10 @@ import BeritaForm from "./pages/Forms/BeritaForm"
 import EditBeritaForm from "./pages/Forms/EditBeritaForm";
 import BeritaTable from "./pages/Tables/BeritaTable";
 import DetailBeritaForm from "./pages/Forms/DetailBeritaForm";
+
+import GeografisForm from "./pages/Forms/GeografisForm"
+import EditGeografisForm from "./pages/Forms/EditGeografisForm";
+import GeografisTable from "./pages/Tables/GeografisTable";
 
 import PengajianForm from "./pages/Forms/PengajianForm";
 import EditPengajianForm from "./pages/Forms/EditPengajianForm";
@@ -64,7 +69,6 @@ import DetailSuratForm from "./pages/Forms/DetailSuratForm";
 import AduanTable from "./pages/Tables/AduanTable.tsx";
 // import DetailAduanForm from "./pages/Forms/DetailAduanForm";
 
-import IuranPage from "./pages/Payment/IuranPage.tsx";
 import IuranTable from "./pages/Tables/IuranTable.tsx";
 import IuranForm from "./pages/Forms/IuranForm";
 import EditIuranForm from "./pages/Forms/EditIuranForm";
@@ -77,7 +81,8 @@ import DetailPembayaranForm from "./pages/Forms/DetailPembayaranForm.tsx";
 import GuestRoute from "./routes/GuestRoute";
 import VerifyEmail from "./pages/AuthPages/VerifyEmail";
 import ProtectedRoute from "./routes/ProtectedRoute";
-import Table from "./components/tables/DataTableBerita"
+
+import AdminRoute from "./routes/AdminRoute";
 export default function App() {
   return (
     <>
@@ -87,97 +92,102 @@ export default function App() {
           {/* Dashboard Layout */}
           <Route element={<ProtectedRoute />}>
             <Route element={<AppLayout />}>
-              <Route index path="/" element={<Home />} />
-
-              {/* Others Page */}
               <Route path="/profile" element={<UserProfiles />} />
-              <Route path="/blank" element={<Blank />} />
+            </Route>
+            <Route element={<AdminRoute />}>
+              <Route element={<AppLayout />}>
+                <Route index path="/" element={<Home />} />
 
-              {/* Payment Page */}
-              <Route path="/iuran" element={<IuranPage />} />
+                {/* Others Page */}
+                <Route path="/profile" element={<UserProfiles />} />
 
-              {/* Forms */}
-              <Route path="/form-elements" element={<FormElements />} />
+                {/* Forms */}
+                <Route path="/form-elements" element={<FormElements />} />
 
-              <Route path="/form-pengajian" element={<PengajianForm />} />
-              <Route path="/pengajian-tables/edit-pengajian/:id" element={<EditPengajianForm />} />
-              <Route path="/pengajian-tables/detail-pengajian/:id" element={<DetailPengajianForm />} />
+                <Route path="/form-pengajian" element={<PengajianForm />} />
+                <Route path="/pengajian-tables/edit-pengajian/:id" element={<EditPengajianForm />} />
+                <Route path="/pengajian-tables/detail-pengajian/:id" element={<DetailPengajianForm />} />
 
-              <Route path="/form-berita" element={<BeritaForm />} />
-              <Route path="/berita-tables/edit-berita/:id" element={<EditBeritaForm />} />
-              <Route path="/berita-tables/detail-berita/:id" element={<DetailBeritaForm />} />
+                <Route path="/form-berita" element={<BeritaForm />} />
+                <Route path="/berita-tables/edit-berita/:id" element={<EditBeritaForm />} />
+                <Route path="/berita-tables/detail-berita/:id" element={<DetailBeritaForm />} />
 
-              <Route path="/form-kerjabakti" element={<KerjabaktiForm />} />
-              <Route path="/kerjabakti-tables/edit-kerjabakti/:id" element={<EditKerjabaktiForm />} />
-              <Route path="/kerjabakti-tables/detail-kerjabakti/:id" element={<DetailKerjabaktiForm />} />
+                <Route path="/form-geografis" element={<GeografisForm />} />
+                <Route path="/geografis-tables/edit-geografis/:id" element={<EditGeografisForm />} />
 
-              <Route path="/form-tahlil" element={<TahlilForm />} />
-              <Route path="/tahlil-tables/edit-tahlil/:id" element={<EditTahlilForm />} />
-              <Route path="/tahlil-tables/detail-tahlil/:id" element={<DetailTahlilForm />} />
+                <Route path="/form-kerjabakti" element={<KerjabaktiForm />} />
+                <Route path="/kerjabakti-tables/edit-kerjabakti/:id" element={<EditKerjabaktiForm />} />
+                <Route path="/kerjabakti-tables/detail-kerjabakti/:id" element={<DetailKerjabaktiForm />} />
 
-              <Route path="/form-rapat" element={<RapatForm />} />
-              <Route path="/rapat-tables/edit-rapat/:id" element={<EditRapatForm />} />
-              <Route path="/rapat-tables/detail-rapat/:id" element={<DetailRapatForm />} />
+                <Route path="/form-tahlil" element={<TahlilForm />} />
+                <Route path="/tahlil-tables/edit-tahlil/:id" element={<EditTahlilForm />} />
+                <Route path="/tahlil-tables/detail-tahlil/:id" element={<DetailTahlilForm />} />
 
-              <Route path="/form-penduduk" element={<PendudukForm />} />
-              <Route path="/penduduk-tables/edit-penduduk/:id" element={<EditPendudukForm />} />
-              <Route path="/penduduk-tables/detail-penduduk/:id" element={<DetailPendudukForm />} />
+                <Route path="/form-rapat" element={<RapatForm />} />
+                <Route path="/rapat-tables/edit-rapat/:id" element={<EditRapatForm />} />
+                <Route path="/rapat-tables/detail-rapat/:id" element={<DetailRapatForm />} />
 
-              <Route path="/form-laporan" element={<LaporanForm />} />
-              <Route path="/laporan-tables/edit-laporan/:id" element={<EditLaporanForm />} />
-              <Route path="/laporan-tables/detail-laporan/:id" element={<DetailLaporanForm />} />
+                <Route path="/form-penduduk" element={<PendudukForm />} />
+                <Route path="/penduduk-tables/edit-penduduk/:id" element={<EditPendudukForm />} />
+                <Route path="/penduduk-tables/detail-penduduk/:id" element={<DetailPendudukForm />} />
 
-              <Route path="/form-pengurus" element={<PengurusForm />} />
-              <Route path="/pengurus-tables/edit-pengurus/:id" element={<EditPengurusForm />} />
-              <Route path="/pengurus-tables/detail-pengurus/:id" element={<DetailPengurusForm />} />
+                <Route path="/form-laporan" element={<LaporanForm />} />
+                <Route path="/laporan-tables/edit-laporan/:id" element={<EditLaporanForm />} />
+                <Route path="/laporan-tables/detail-laporan/:id" element={<DetailLaporanForm />} />
 
-              <Route path="/form-iuran" element={<IuranForm />} />
-              <Route path="/iuran-tables/edit-iuran/:id" element={<EditIuranForm />} />
-              <Route path="/iuran-tables/detail-iuran/:id" element={<DetailIuranForm />} />
+                <Route path="/form-pengurus" element={<PengurusForm />} />
+                <Route path="/pengurus-tables/edit-pengurus/:id" element={<EditPengurusForm />} />
+                <Route path="/pengurus-tables/detail-pengurus/:id" element={<DetailPengurusForm />} />
 
-              <Route path="/form-pembayaran" element={<PembayaranForm />} />
-              <Route path="/pembayaran-tables/detail-pembayaran/:id" element={<DetailPembayaranForm />} />
+                <Route path="/form-iuran" element={<IuranForm />} />
+                <Route path="/iuran-tables/edit-iuran/:id" element={<EditIuranForm />} />
+                <Route path="/iuran-tables/detail-iuran/:id" element={<DetailIuranForm />} />
 
-              <Route path="/surat-tables/detail-surat/:id" element={<DetailSuratForm />} />
+                <Route path="/form-pembayaran" element={<PembayaranForm />} />
+                <Route path="/pembayaran-tables/detail-pembayaran/:id" element={<DetailPembayaranForm />} />
 
-              {/* Tables */}
-              <Route path="/berita-tables" element={<BeritaTable />} />
-              <Route path="/pengajian-tables" element={<PengajianTable />} />
-              <Route path="/aduan-tables" element={<AduanTable />} />
-              <Route path="/kerjabakti-tables" element={<KerjabaktiTable />} />
-              <Route path="/tahlil-tables" element={<TahlilTable />} />
-              <Route path="/rapat-tables" element={<RapatTable />} />
-              <Route path="/surat-tables" element={<SuratTable />} />
-              <Route path="/penduduk-tables" element={<PendudukTable />} />
-              <Route path="/laporan-tables" element={<LaporanTable />} />
-              <Route path="/pengurus-tables" element={<PengurusTable />} />
-              <Route path="/iuran-tables" element={<IuranTable />} />
-              <Route path="/pembayaran-tables" element={<PembayaranTable />} />
+                <Route path="/surat-tables/detail-surat/:id" element={<DetailSuratForm />} />
 
-              {/* Ui Elements */}
-              <Route path="/alerts" element={<Alerts />} />
-              <Route path="/avatars" element={<Avatars />} />
-              <Route path="/badge" element={<Badges />} />
-              <Route path="/buttons" element={<Buttons />} />
-              <Route path="/images" element={<Images />} />
-              <Route path="/videos" element={<Videos />} />
+                {/* Tables */}
+                <Route path="/berita-tables" element={<BeritaTable />} />
+                <Route path="/pengajian-tables" element={<PengajianTable />} />
+                <Route path="/aduan-tables" element={<AduanTable />} />
+                <Route path="/kerjabakti-tables" element={<KerjabaktiTable />} />
+                <Route path="/tahlil-tables" element={<TahlilTable />} />
+                <Route path="/rapat-tables" element={<RapatTable />} />
+                <Route path="/surat-tables" element={<SuratTable />} />
+                <Route path="/penduduk-tables" element={<PendudukTable />} />
+                <Route path="/laporan-tables" element={<LaporanTable />} />
+                <Route path="/pengurus-tables" element={<PengurusTable />} />
+                <Route path="/iuran-tables" element={<IuranTable />} />
+                <Route path="/pembayaran-tables" element={<PembayaranTable />} />
+                <Route path="/geografis-tables" element={<GeografisTable />} />
 
-              {/* Charts */}
-              <Route path="/line-chart" element={<LineChart />} />
-              <Route path="/bar-chart" element={<BarChart />} />
+                {/* Ui Elements */}
+                <Route path="/alerts" element={<Alerts />} />
+                <Route path="/avatars" element={<Avatars />} />
+                <Route path="/badge" element={<Badges />} />
+                <Route path="/buttons" element={<Buttons />} />
+                <Route path="/images" element={<Images />} />
+                <Route path="/videos" element={<Videos />} />
+
+                {/* Charts */}
+                <Route path="/line-chart" element={<LineChart />} />
+                <Route path="/bar-chart" element={<BarChart />} />
+              </Route>
             </Route>
           </Route>
-
           {/* Auth Layout */}
           <Route element={<GuestRoute />}>
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/verify-email" element={<VerifyEmail />} />
+            <Route path="/blank" element={<Blank />} />
           </Route>
 
           {/* Fallback Route */}
-          <Route path="*" element={<NotFound />} />
-          <Route path="/table" element={<Table />} />
+          <Route path="/404" element={<NotFound />} />
+          <Route path="*" element={<Navigate to="/404" replace />} />
         </Routes>
       </Router>
     </>
